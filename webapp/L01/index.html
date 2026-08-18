@@ -67,6 +67,26 @@ color:var(--accent);font-size:14px;font-weight:600;margin-top:12px}
 #wise-app .ws-scene{display:block;width:100%;height:164px;border:2px solid var(--line);
 border-radius:14px;background:#fff;margin:10px 0 6px}
 #wise-app .iconrow{display:flex;align-items:center;gap:8px}
+#wise-app .quest{display:none}
+#wise-app .quest.on{display:block;animation:wfade .25s ease-out}
+@keyframes wfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#wise-app .hud{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--accent-soft);
+border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:700;font-size:14px;color:var(--accent)}
+#wise-app .hud .grow{flex:1;min-width:120px}
+#wise-app .hud .bar{background:#fff}
+#wise-app .tile{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;
+text-align:left;font-weight:700;min-height:112px;display:flex;flex-direction:column;gap:6px;
+box-shadow:var(--shadow);color:var(--ink)}
+#wise-app .tile small{font-weight:600;color:var(--muted);font-size:13px}
+#wise-app .tile.done{border-color:var(--accent);background:var(--accent-soft)}
+#wise-app .cele{position:fixed;inset:0;background:rgba(17,24,39,.55);display:flex;align-items:center;
+justify-content:center;padding:20px;z-index:60}
+#wise-app .cele .box{background:#fff;border-radius:22px;padding:26px;max-width:460px;width:100%;
+text-align:center;box-shadow:0 18px 60px rgba(0,0,0,.3)}
+#wise-app .cele h2{font-size:24px;margin-bottom:10px}
+#wise-app .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);
+color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;font-size:14px;z-index:70}
+#wise-app canvas{max-width:100%;height:auto;border-radius:12px}
 #wise-app .intro{margin:-4px 0 16px}
 #wise-app .intro svg{display:block;width:100%;height:168px;border:2px solid var(--line);
 border-radius:14px;background:#fff}
@@ -129,6 +149,7 @@ border-radius:14px;background:#fff}
     <div class="steps hide" id="w-steps"></div>
     <div class="note hide" id="w-note"></div>
   </div>
+  <div id="w-hud" class="hide"></div>
   <div id="activity"></div>
   <div class="card">
     <button id="w-submit">제출하기</button>
@@ -183,6 +204,9 @@ border-radius:14px;background:#fff}
   </div>
 </section>
 
+<div id="w-cele" class="hide"></div>
+<div id="w-toast" class="hide"></div>
+
 <p class="foot">2026년 티처스랩 5기 교사연구회 A.N.D · CC BY-NC-SA</p>
 </div>
 
@@ -195,6 +219,8 @@ border-radius:14px;background:#fff}
   var SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyIqxbv5JObUl2eN7iSZ-HDcDcHtaKxHlEpuNfkfPQMmJUKrwIMnlUsqKH20OOeOs4/exec";
   var QUEUE_KEY = "wise_backup_queue";
   var LOCAL_KEY = "wise_" + APP + "_local";
+  var ACCENT = "#2563eb";
+  var COPYRIGHT_LINE = "2026년 티처스랩 5기 교사연구회 A.N.D · CC BY-NC-SA";
 
   var $ = function (id) { return document.getElementById(id); };
   var me = { room: "", pw: "", nick: "", group: "", solo: false };
@@ -284,6 +310,108 @@ border-radius:14px;background:#fff}
     for (var k = 0; k < n; k++) { h += '<span class="' + (k <= i ? "on" : "") + '"></span>'; }
     $("w-steps").innerHTML = h;
     $("w-steps").className = "steps";
+  }
+
+  /* 여정 화면 전환. 활동이 만든 .quest 조각을 갈아 끼운다. */
+  function wiseGo(id) {
+    var qs = document.querySelectorAll("#activity .quest");
+    for (var i = 0; i < qs.length; i++) {
+      qs[i].className = "quest" + (qs[i].getAttribute("data-q") === id ? " on" : "");
+    }
+    if (window.scrollTo) { window.scrollTo(0, 0); }
+    if (typeof activityEnter === "function") {
+      try { activityEnter(id); } catch (e) {}
+    }
+  }
+
+  /* 상단 진행 표시. 여러 칸을 한 줄로 보여 준다. */
+  function wiseHud(items) {
+    var h = "";
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      h += '<span>' + esc(it.label) + ' ' + it.done + ' / ' + it.total + '</span>';
+    }
+    var first = items[0] || { done: 0, total: 1 };
+    h += '<span class="grow">' + barHtml(first.done, first.total) + '</span>';
+    $("w-hud").innerHTML = h;
+    $("w-hud").className = "hud";
+  }
+
+  function wiseToast(text) {
+    $("w-toast").textContent = text;
+    $("w-toast").className = "toast";
+    setTimeout(function () { $("w-toast").className = "toast hide"; }, 2200);
+  }
+
+  function wiseCelebrate(title, lines, buttonText) {
+    var h = '<div class="box"><h2>' + esc(title) + '</h2>';
+    for (var i = 0; i < lines.length; i++) {
+      h += '<p class="muted" style="margin-top:6px">' + lines[i] + '</p>';
+    }
+    h += '<div class="row" style="justify-content:center;margin-top:16px">' +
+      '<button type="button" id="cele-close">' + esc(buttonText || "닫기") + '</button></div></div>';
+    $("w-cele").innerHTML = h;
+    $("w-cele").className = "cele";
+    $("cele-close").onclick = function () { $("w-cele").className = "cele hide"; };
+  }
+
+  /* 결과 카드를 그림으로 만들어 내려받는다. 교실에서 인쇄해 붙일 수 있다. */
+  function wiseCardPng(title, lines, filename) {
+    try {
+      var c = document.createElement("canvas");
+      c.width = 900; c.height = 560;
+      var g = c.getContext("2d");
+      g.fillStyle = "#ffffff"; g.fillRect(0, 0, 900, 560);
+      g.fillStyle = ACCENT; g.fillRect(0, 0, 900, 120);
+      g.fillStyle = "#ffffff"; g.font = "bold 40px sans-serif";
+      g.fillText(title, 40, 76);
+      g.fillStyle = "#111827"; g.font = "26px sans-serif";
+      for (var i = 0; i < lines.length && i < 10; i++) {
+        g.fillText(String(lines[i]).slice(0, 34), 40, 180 + i * 42);
+      }
+      g.fillStyle = "#6b7280"; g.font = "18px sans-serif";
+      g.fillText(COPYRIGHT_LINE, 40, 530);
+      var a = document.createElement("a");
+      a.href = c.toDataURL("image/png");
+      a.download = (filename || "wise_card") + ".png";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      wiseToast("카드를 내려받았어요.");
+    } catch (e) { wiseToast("이 기기에서는 카드 저장이 안 돼요."); }
+  }
+
+  /* 교사 화면용 막대 그림. 캔버스로 그린다. */
+  function wiseBars(rows, width) {
+    var w = width || 620, h = 42 * rows.length + 24;
+    var c = document.createElement("canvas");
+    if (!c || typeof c.getContext !== "function") { return barTable(rows); }
+    c.width = w; c.height = h;
+    var g = c.getContext("2d");
+    g.fillStyle = "#ffffff"; g.fillRect(0, 0, w, h);
+    var max = 1;
+    for (var i = 0; i < rows.length; i++) { if (rows[i].value > max) { max = rows[i].value; } }
+    for (var k = 0; k < rows.length; k++) {
+      var y = 16 + k * 42;
+      g.fillStyle = "#374151"; g.font = "bold 16px sans-serif";
+      g.fillText(String(rows[k].label).slice(0, 14), 8, y + 20);
+      var x0 = 160, bw = (w - 200) * rows[k].value / max;
+      g.fillStyle = "#e5e7eb"; g.fillRect(x0, y, w - 200, 24);
+      g.fillStyle = rows[k].color || ACCENT; g.fillRect(x0, y, bw, 24);
+      g.fillStyle = "#111827"; g.font = "bold 15px sans-serif";
+      g.fillText(String(rows[k].value), x0 + bw + 8, y + 18);
+    }
+    return '<img alt="분포 그림" style="width:100%" src="' + c.toDataURL("image/png") + '">';
+  }
+
+  /* 캔버스를 못 쓰는 자리에서는 표로 대신한다. */
+  function barTable(rows) {
+    var h = '<div class="scroll"><table><tr><th>항목</th><th>수</th><th>분포</th></tr>';
+    var max = 1;
+    for (var i = 0; i < rows.length; i++) { if (rows[i].value > max) { max = rows[i].value; } }
+    for (var k = 0; k < rows.length; k++) {
+      h += "<tr><td>" + esc(rows[k].label) + "</td><td>" + rows[k].value + "</td><td>" +
+        barHtml(rows[k].value, max) + "</td></tr>";
+    }
+    return h + "</table></div>";
   }
 
   function wiseNote(text) {
