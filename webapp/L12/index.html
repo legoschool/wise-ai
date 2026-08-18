@@ -107,11 +107,11 @@ border-radius:14px;background:#fff}
 @media (prefers-reduced-motion:reduce){#wise-app *{transition:none!important;animation:none!important}}
 </style>
 
-<nav id="w-top" class="wtop hide">
-  <a href="../../index.html">WISE 홈</a>
-  <a href="../../browse.html">둘러보기</a>
-  <a href="../../lesson/L12.html">차시 페이지</a>
-  <a href="../../deck/L12.html">수업 슬라이드</a>
+<nav id="w-top" class="wtop">
+  <a href="../../index.html" target="_blank" rel="noopener">홈으로 돌아가기</a>
+  <a href="../../browse.html" target="_blank" rel="noopener">둘러보기</a>
+  <a href="../../lesson/L12.html" target="_blank" rel="noopener">차시 페이지</a>
+  <a href="../../webapp/common/index.html" target="_blank" rel="noopener">사전·사후 설문</a>
   <button type="button" id="w-restart">처음부터</button>
 </nav>
 
@@ -124,33 +124,31 @@ border-radius:14px;background:#fff}
 <section id="gate" class="card">
   <div id="w-intro" class="hide"></div>
   <h2>들어가기</h2>
+  <p class="muted">선생님이 알려 준 방 번호와 내 닉네임만 쓰면 돼요.</p>
   <div class="grid" style="grid-template-columns:1fr 1fr">
     <div>
-      <label for="w-room">방 코드 6자리</label>
+      <label for="w-room">방 번호 6자리</label>
       <input id="w-room" inputmode="numeric" maxlength="6" placeholder="예: 482913">
     </div>
-    <div>
-      <label for="w-pw">비밀번호 4자리</label>
-      <input id="w-pw" inputmode="numeric" maxlength="4" placeholder="예: 1234">
-    </div>
-  </div>
-  <div class="grid" style="grid-template-columns:1fr 1fr">
     <div>
       <label for="w-nick">닉네임</label>
       <input id="w-nick" maxlength="12" placeholder="이름 말고 별명을 써요">
     </div>
-    <div>
-      <label for="w-group">모둠</label>
-      <input id="w-group" maxlength="10" placeholder="예: 3모둠">
-    </div>
   </div>
+  <label for="w-group">모둠 (없으면 비워 둬요)</label>
+  <input id="w-group" maxlength="10" placeholder="예: 3모둠">
   <div class="row" style="margin-top:14px">
     <button id="w-enter">입장하기</button>
-    <button id="w-solo" class="ghost">혼자 체험해 보기</button>
+    <button id="w-solo" class="ghost">둘러보기</button>
     <button id="w-teacher" class="plain">선생님 화면</button>
   </div>
   <p id="w-gate-msg" class="muted" style="margin-top:10px"></p>
-  <div class="safe">이름, 사진, 친구 이야기 같은 개인정보는 넣지 않아요.</div>
+  <div class="note" id="w-prepost">처음 시작하기 전에는 <b>사전 설문</b>, 열두 시간을 마친 뒤에는
+    <b>사후 설문</b>을 합니다.
+    <a href="../common/index.html" target="_blank" rel="noopener">자기인식 설문 열기</a></div>
+  <div class="safe"><b>개인정보를 모으지 않아요.</b> 이름, 사진, 친구 이야기 같은 개인정보는 넣지 않아요.
+    학교, 학년, 반, 전화번호도 묻지 않습니다. 닉네임과 답만 저장합니다.
+    모인 자료는 수업 프로그램을 더 좋게 만드는 데만 쓰고, 학년도가 끝나면 지웁니다.</div>
 </section>
 
 <!-- 학생 활동 -->
@@ -176,7 +174,10 @@ border-radius:14px;background:#fff}
 <section id="teacher" class="hide">
   <div class="card">
     <h2>선생님 화면</h2>
-    <div class="row">
+    <p class="muted">방을 만들면 여섯 자리 번호가 나옵니다. 학생에게 번호만 알려 주세요.</p>
+    <label for="w-pw">선생님 비밀번호 4자리 (이 화면을 다시 열 때 씁니다)</label>
+    <input id="w-pw" inputmode="numeric" maxlength="4" placeholder="예: 1234">
+    <div class="row" style="margin-top:12px">
       <button id="t-make">새 방 만들기</button>
       <button id="t-open" class="ghost">기존 방 열기</button>
       <button id="t-back" class="plain">돌아가기</button>
@@ -844,14 +845,13 @@ border-radius:14px;background:#fff}
 
   function enter(solo) {
     var room = onlyDigits($("w-room").value, 6);
-    var pw = onlyDigits($("w-pw").value, 4);
     var nick = $("w-nick").value.trim();
     var group = $("w-group").value.trim();
 
     if (!nick) { $("w-gate-msg").textContent = "닉네임을 써 주세요."; return; }
-    if (!solo && room.length !== 6) { $("w-gate-msg").textContent = "방 코드 6자리를 정확히 써 주세요."; return; }
+    if (!solo && room.length !== 6) { $("w-gate-msg").textContent = "방 번호 6자리를 정확히 써 주세요."; return; }
 
-    me = { room: solo ? "solo" : room, pw: pw, nick: nick, group: group, solo: !!solo };
+    me = { room: solo ? "solo" : room, pw: "", nick: nick, group: group, solo: !!solo };
     $("w-who").textContent = me.nick + (me.group ? " · " + me.group : "") +
       (me.solo ? " · 혼자 체험" : " · " + me.room);
     $("activity").innerHTML = activityHtml();
@@ -1044,17 +1044,12 @@ border-radius:14px;background:#fff}
     } else { fallbackCopy(code, done); }
   };
 
-  /* 구글 사이트에 끼워 넣었을 때는 상단바를 숨긴다. 따로 열었을 때만 길을 보여 준다. */
-  try {
-    if (window.self === window.top) {
-      $("w-top").className = "wtop";
-      $("w-restart").onclick = function () {
-        if (timer) { clearInterval(timer); }
-        if (draftTimer) { clearInterval(draftTimer); }
-        show("gate");
-      };
-    }
-  } catch (e) {}
+  /* 상단바는 어느 화면에서나 계속 보인다. 링크는 새 창으로 열어 삽입 화면을 가두지 않는다. */
+  $("w-restart").onclick = function () {
+    if (timer) { clearInterval(timer); }
+    if (draftTimer) { clearInterval(draftTimer); }
+    show("gate");
+  };
 
   /* 입장 화면에 이 활동을 소개하는 그림을 깐다. 혼자 열어 본 학생을 위한 것이다. */
   if (typeof activityIntro === "function") {
