@@ -1,0 +1,1013 @@
+<meta charset="utf-8">
+<div id="wise-app">
+<style>
+#wise-app *,#wise-app *::before,#wise-app *::after{box-sizing:border-box}
+#wise-app{--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--paper:#fff;--bg:#f6f7f9;
+--accent:#2563eb;--accent-soft:#eff6ff;
+--shadow:0 1px 2px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.06);
+font-family:"Pretendard","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
+color:var(--ink);background:var(--bg);line-height:1.65;font-size:16px;
+padding:18px;max-width:1040px;margin:0 auto;-webkit-text-size-adjust:100%}
+#wise-app h1,#wise-app h2,#wise-app h3{margin:0;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+#wise-app .hd{background:var(--accent);color:#fff;border-radius:18px;padding:20px 22px;margin-bottom:16px;
+box-shadow:var(--shadow);position:relative;overflow:hidden}
+#wise-app .hd::after{content:"";position:absolute;right:-40px;top:-60px;width:200px;height:200px;
+border-radius:50%;background:rgba(255,255,255,.10)}
+#wise-app .hd h1{font-size:23px}
+#wise-app .hd p{margin:6px 0 0;font-size:14px;opacity:.94}
+#wise-app .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;
+margin-bottom:14px;box-shadow:var(--shadow)}
+#wise-app .card h2{font-size:18px;margin-bottom:10px}
+#wise-app .card h3{font-size:16px}
+#wise-app .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+#wise-app label{display:block;font-size:14px;color:var(--muted);margin:12px 0 4px;font-weight:600}
+#wise-app input,#wise-app textarea,#wise-app select{
+width:100%;font:inherit;font-size:18px;padding:13px 14px;border:1px solid var(--line);
+border-radius:12px;background:#fff;color:var(--ink)}
+#wise-app input:focus,#wise-app textarea:focus,#wise-app select:focus{
+outline:3px solid var(--accent-soft);border-color:var(--accent)}
+#wise-app textarea{min-height:104px;resize:vertical}
+#wise-app button{font:inherit;font-size:16px;font-weight:600;min-height:48px;padding:12px 18px;
+border-radius:12px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+#wise-app button.ghost{background:#fff;color:var(--accent)}
+#wise-app button.plain{background:#fff;color:var(--muted);border-color:var(--line)}
+#wise-app button:disabled{opacity:.45;cursor:not-allowed}
+#wise-app .code{font-size:38px;font-weight:800;letter-spacing:.16em;color:var(--accent)}
+#wise-app .muted{color:var(--muted);font-size:14px}
+#wise-app .pill{display:inline-block;padding:5px 11px;border-radius:999px;background:var(--accent-soft);
+color:var(--accent);font-size:13px;font-weight:700}
+#wise-app .tag{display:inline-block;padding:3px 9px;border-radius:999px;background:var(--bg);
+border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:600;margin-right:4px}
+#wise-app .hide{display:none}
+#wise-app .bucket{border:2px dashed var(--line);border-radius:14px;padding:12px;min-height:120px;background:#fff}
+#wise-app .bucket h3{font-size:15px;margin-bottom:8px}
+#wise-app .grid{display:grid;gap:12px}
+#wise-app .g2{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+#wise-app .chip{display:block;width:100%;text-align:left;padding:13px 15px;margin-bottom:8px;
+border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-weight:600;min-height:48px}
+#wise-app .chip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+#wise-app .bar{height:14px;border-radius:8px;background:var(--line);overflow:hidden}
+#wise-app .bar>i{display:block;height:100%;background:var(--accent)}
+#wise-app .steps{display:flex;gap:6px;margin:12px 0 0}
+#wise-app .steps>span{flex:1;height:8px;border-radius:6px;background:var(--line)}
+#wise-app .steps>span.on{background:var(--accent)}
+#wise-app table{width:100%;border-collapse:collapse;font-size:14px}
+#wise-app th,#wise-app td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+#wise-app th{background:var(--bg);font-weight:700}
+#wise-app .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#wise-app .safe{margin-top:14px;padding:13px 15px;border-radius:12px;background:#fff7ed;
+border:1px solid #fed7aa;color:#9a3412;font-size:14px}
+#wise-app .note{padding:12px 14px;border-radius:12px;background:var(--accent-soft);
+color:var(--accent);font-size:14px;font-weight:600;margin-top:12px}
+#wise-app .ok{color:#15803d;font-weight:700}
+#wise-app .warn{color:#b45309;font-weight:700}
+#wise-app .big{font-size:30px;font-weight:800;line-height:1.25}
+#wise-app .foot{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
+#wise-app .wi{vertical-align:middle;margin-right:8px;flex:none}
+#wise-app .ws-scene{display:block;width:100%;height:164px;border:2px solid var(--line);
+border-radius:14px;background:#fff;margin:10px 0 6px}
+#wise-app .iconrow{display:flex;align-items:center;gap:8px}
+#wise-app .intro{margin:-4px 0 16px}
+#wise-app .intro svg{display:block;width:100%;height:168px;border:2px solid var(--line);
+border-radius:14px;background:#fff}
+#wise-app .intro p{margin:10px 0 0;font-size:15px;color:var(--muted)}
+#wise-app .intro b{color:var(--ink)}
+#wise-app #present .card{border-radius:20px}
+#wise-app #present table{font-size:19px}
+#wise-app #present .big{font-size:44px}
+@media (max-width:640px){#wise-app{padding:10px;font-size:15px}#wise-app .hd h1{font-size:19px}
+#wise-app .g2{grid-template-columns:1fr}#wise-app .intro svg{height:126px}
+#wise-app .ws-scene{height:120px}}
+@media (prefers-reduced-motion:reduce){#wise-app *{transition:none!important;animation:none!important}}
+</style>
+
+<div class="hd">
+  <h1>정보 분류 카드</h1>
+  <p>4차시 · 내 정보는 안전할까</p>
+</div>
+
+<!-- 입장 -->
+<section id="gate" class="card">
+  <div id="w-intro" class="hide"></div>
+  <h2>들어가기</h2>
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div>
+      <label for="w-room">방 코드 6자리</label>
+      <input id="w-room" inputmode="numeric" maxlength="6" placeholder="예: 482913">
+    </div>
+    <div>
+      <label for="w-pw">비밀번호 4자리</label>
+      <input id="w-pw" inputmode="numeric" maxlength="4" placeholder="예: 1234">
+    </div>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div>
+      <label for="w-nick">닉네임</label>
+      <input id="w-nick" maxlength="12" placeholder="이름 말고 별명을 써요">
+    </div>
+    <div>
+      <label for="w-group">모둠</label>
+      <input id="w-group" maxlength="10" placeholder="예: 3모둠">
+    </div>
+  </div>
+  <div class="row" style="margin-top:14px">
+    <button id="w-enter">입장하기</button>
+    <button id="w-solo" class="ghost">혼자 체험해 보기</button>
+    <button id="w-teacher" class="plain">선생님 화면</button>
+  </div>
+  <p id="w-gate-msg" class="muted" style="margin-top:10px"></p>
+  <div class="safe">이름, 사진, 친구 이야기 같은 개인정보는 넣지 않아요.</div>
+</section>
+
+<!-- 학생 활동 -->
+<section id="stage" class="hide">
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <span class="pill" id="w-who"></span>
+      <span class="muted" id="w-sync">저장 준비됨</span>
+    </div>
+    <div class="steps hide" id="w-steps"></div>
+    <div class="note hide" id="w-note"></div>
+  </div>
+  <div id="activity"></div>
+  <div class="card">
+    <button id="w-submit">제출하기</button>
+    <button id="w-leave" class="plain">나가기</button>
+    <p id="w-msg" class="muted" style="margin-top:10px"></p>
+  </div>
+</section>
+
+<!-- 교사 -->
+<section id="teacher" class="hide">
+  <div class="card">
+    <h2>선생님 화면</h2>
+    <div class="row">
+      <button id="t-make">새 방 만들기</button>
+      <button id="t-open" class="ghost">기존 방 열기</button>
+      <button id="t-back" class="plain">돌아가기</button>
+    </div>
+    <div id="t-room" class="hide" style="margin-top:16px">
+      <p class="muted">방 코드</p>
+      <div class="row">
+        <span class="code" id="t-code">------</span>
+        <button id="t-copy" class="ghost">복사</button>
+      </div>
+      <p class="muted" id="t-pw"></p>
+      <div class="row" style="margin-top:12px">
+        <button id="t-present">결과 크게 띄우기</button>
+        <button id="t-refresh" class="ghost">새로고침</button>
+        <button id="t-csv" class="ghost">CSV 내려받기</button>
+        <button id="t-lock" class="plain">방 잠그기</button>
+      </div>
+    </div>
+  </div>
+  <div id="t-board" class="card hide">
+    <h2>제출 현황 <span class="pill" id="t-count">0명</span></h2>
+    <p class="muted" id="t-note"></p>
+    <div id="t-summary"></div>
+    <div class="row" style="margin-top:12px">
+      <button id="t-detail" class="plain">낱낱이 보기 켜기</button>
+    </div>
+    <div class="scroll hide" id="t-wrap" style="margin-top:12px"><table id="t-table"></table></div>
+  </div>
+</section>
+
+<!-- 발표 -->
+<section id="present" class="hide">
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2 id="p-title">우리 반 결과</h2>
+      <button id="p-close" class="plain">닫기</button>
+    </div>
+    <div id="p-body" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<p class="foot">2026년 티처스랩 5기 교사연구회 A.N.D · CC BY-NC-SA</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var APP = "info-sorter";
+  var DB = "https://remind-c2610-default-rtdb.firebaseio.com";
+  var SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyIqxbv5JObUl2eN7iSZ-HDcDcHtaKxHlEpuNfkfPQMmJUKrwIMnlUsqKH20OOeOs4/exec";
+  var QUEUE_KEY = "wise_backup_queue";
+  var LOCAL_KEY = "wise_" + APP + "_local";
+
+  var $ = function (id) { return document.getElementById(id); };
+  var me = { room: "", pw: "", nick: "", group: "", solo: false };
+  var timer = null;
+  var draftTimer = null;
+
+  /* ---------- 저장 ---------- */
+
+  function dbUrl(path) { return DB + "/wise/" + APP + "/" + path + ".json"; }
+
+  function dbGet(path) {
+    return fetch(dbUrl(path)).then(function (r) { return r.json(); });
+  }
+  function dbPut(path, data) {
+    return fetch(dbUrl(path), {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    }).then(function (r) { return r.json(); });
+  }
+  function dbPush(path, data) {
+    return fetch(dbUrl(path), {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    }).then(function (r) { return r.json(); });
+  }
+
+  function sheetBackup(record) {
+    try {
+      var q = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
+      q.push(record);
+      localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
+      if (SHEET_ENDPOINT.indexOf("http") !== 0) { return; }
+      fetch(SHEET_ENDPOINT, {
+        method: "POST", mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ rows: q })
+      }).then(function () {
+        localStorage.setItem(QUEUE_KEY, "[]");
+      })["catch"](function () {});
+    } catch (e) {}
+  }
+
+  /* ---------- 도구 ---------- */
+
+  function onlyDigits(s, n) {
+    var out = "";
+    for (var i = 0; i < s.length && out.length < n; i++) {
+      if (s.charAt(i) >= "0" && s.charAt(i) <= "9") { out += s.charAt(i); }
+    }
+    return out;
+  }
+
+  function makeCode() {
+    var s = "";
+    for (var i = 0; i < 6; i++) { s += String(Math.floor(Math.random() * 10)); }
+    return s;
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function pct(a, b) { return b ? Math.round(a * 100 / b) : 0; }
+
+  function barHtml(a, b) {
+    return '<div class="bar"><i style="width:' + pct(a, b) + '%"></i></div>';
+  }
+
+  function show(id) {
+    var ids = ["gate", "stage", "teacher", "present"];
+    for (var i = 0; i < ids.length; i++) {
+      $(ids[i]).className = ids[i] === id ? "" : "hide";
+    }
+  }
+
+  /* 활동 화면이 부르는 골격 기능 */
+
+  function wiseDraft(obj) {
+    try { localStorage.setItem(LOCAL_KEY, JSON.stringify(obj)); } catch (e) {}
+    $("w-sync").textContent = "이 기기에 임시 저장됨";
+  }
+
+  function wiseStep(i, n) {
+    var h = "";
+    for (var k = 0; k < n; k++) { h += '<span class="' + (k <= i ? "on" : "") + '"></span>'; }
+    $("w-steps").innerHTML = h;
+    $("w-steps").className = "steps";
+  }
+
+  function wiseNote(text) {
+    if (!text) { $("w-note").className = "note hide"; return; }
+    $("w-note").innerHTML = text;
+    $("w-note").className = "note";
+  }
+
+  /* ---------- 활동 (차시별) ---------- */
+
+
+  /* ---------- 카드 ---------- */
+  /* r 은 숨은 위험도다. 0 넣어도 됨 · 1 조건부 · 2 넣으면 안 됨.
+     학생에게 미리 보여 주지 않는다. 판단이 끝난 뒤에만 펼친다. */
+
+  var KINDS = { id: "나를 알아보는 것", loc: "있는 곳", rel: "다른 사람", rec: "기록으로 남는 것", pub: "이미 알려진 것" };
+
+  var CARDS = [
+    {t:"내 이름", k:"id", r:2, w:"이름 하나만으로도 다른 정보와 붙으면 나를 찾아낼 수 있어요."},
+    {t:"내 사진", k:"id", r:2, w:"얼굴은 바꿀 수 없는 정보예요. 한 번 퍼지면 되돌리기 어려워요."},
+    {t:"집 주소", k:"loc", r:2, w:"사는 곳은 나를 직접 찾아올 수 있게 하는 정보예요."},
+    {t:"부모님 전화번호", k:"id", r:2, w:"가족의 정보는 내가 마음대로 넘길 수 있는 것이 아니에요."},
+    {t:"내 아이디와 비밀번호", k:"id", r:2, w:"비밀번호는 어떤 서비스에도 그대로 넣지 않아요."},
+    {t:"친구 사진", k:"rel", r:2, w:"다른 사람의 정보는 그 친구의 허락 없이는 쓸 수 없어요."},
+    {t:"친구와 다툰 이야기", k:"rel", r:2, w:"친구 이야기는 내 이야기가 아니에요. 이름을 지워도 알아볼 수 있어요."},
+    {t:"친구 이름", k:"rel", r:2, w:"내 친구의 이름을 넣을지 정하는 사람은 내가 아니라 친구예요."},
+    {t:"우리 반 단체 사진", k:"rel", r:2, w:"여러 사람이 함께 찍힌 사진은 모두의 허락이 필요해요."},
+    {t:"내 성적", k:"rec", r:2, w:"성적은 나에 대한 평가 기록이에요. 남기면 오래 따라다녀요."},
+    {t:"몸무게와 키", k:"id", r:2, w:"몸에 대한 정보는 민감해요. 놀림거리가 될 수 있어요."},
+    {t:"학교 이름", k:"loc", r:1, w:"학교만으로는 어렵지만 학년, 이름과 붙으면 나를 찾을 수 있어요."},
+    {t:"학원 이름", k:"loc", r:1, w:"몇 시에 어디 있는지가 드러나요. 시간과 함께 쓰지 않아요."},
+    {t:"우리 반 시간표", k:"loc", r:1, w:"언제 어디 있는지 알려 주는 정보가 될 수 있어요."},
+    {t:"내 생일", k:"id", r:1, w:"생일은 비밀번호 찾기 질문에 자주 쓰여요. 연도까지는 넣지 않아요."},
+    {t:"내가 쓴 글", k:"rec", r:1, w:"내 글은 내 것이지만, 어디에 쓰이는지 확인하고 넣어요."},
+    {t:"내가 그린 그림", k:"rec", r:1, w:"내 작품도 학습에 쓰일 수 있어요. 표기하고 쓰는 습관을 들여요."},
+    {t:"가족 이야기", k:"rel", r:1, w:"가족도 다른 사람이에요. 이름과 사연을 함께 넣지 않아요."},
+    {t:"우리 학교 위치", k:"loc", r:1, w:"이미 알려진 정보라도 나와 묶이면 위치가 되니 조심해요."},
+    {t:"모르는 낱말", k:"pub", r:0, w:"누구의 것도 아닌 정보예요. 마음껏 물어봐도 돼요."},
+    {t:"교과서에 나온 문제", k:"pub", r:0, w:"공개된 학습 자료예요. 풀이 과정을 물어보면 좋아요."},
+    {t:"오늘 급식 메뉴", k:"pub", r:0, w:"누구나 아는 정보예요. 위험하지 않아요."},
+    {t:"좋아하는 가수", k:"pub", r:0, w:"취향은 나를 특정하지 않아요. 다만 너무 자세히 쓰지는 않아요."},
+    {t:"내가 읽은 책 제목", k:"pub", r:0, w:"책 제목은 공개된 정보예요. 추천을 받아 보아도 좋아요."}
+  ];
+
+  var BUCKETS = ["넣어도 돼", "조건을 지키면 돼", "넣으면 안 돼"];
+  var SURE = ["확실해요", "헷갈려요"];
+
+  var st = { i: 0, choice: {}, sure: {}, cond: {}, again: {}, step: 0 };
+
+  /* ---------- 화면 ---------- */
+
+  function activityHtml() {
+    var h = '<div class="card" id="s0">' +
+      '<h2>카드 24장을 한 장씩 판단해요</h2>' +
+      '<p class="muted">AI에게 물어볼 때 이 정보를 넣어도 될까요. 고르고 나서 얼마나 확신하는지도 함께 눌러요.</p>' +
+      '<div id="deck"></div>' +
+      '<div class="row" style="margin-top:14px">' +
+      '<button type="button" id="prev" class="plain">앞 카드</button>' +
+      '<button type="button" id="next" class="ghost">다음 카드</button>' +
+      '<span class="muted" id="progress"></span></div>' +
+      '<div style="margin-top:12px">' + barHtml(0, CARDS.length) + '</div></div>';
+
+    h += '<div class="card hide" id="s1"><h2>조건을 지키면 되는 카드에 조건을 써요</h2>' +
+      '<p class="muted">"어떤 조건이면 넣어도 되는가"를 한 줄로 써요. 금지가 아니라 조건이 우리의 기준이에요.</p>' +
+      '<div id="condbox"></div></div>';
+
+    h += '<div class="card hide" id="s2"><h2>내 판단 되돌아보기</h2>' +
+      '<div id="report"></div></div>';
+
+    h += '<div class="card"><div class="row">' +
+      '<button type="button" id="go1" class="ghost">조건 쓰기로</button>' +
+      '<button type="button" id="go2">결과 보기</button>' +
+      '<button type="button" id="go0" class="plain">카드로 돌아가기</button>' +
+      '</div><p class="muted" style="margin-top:8px">결과를 본 뒤에 헷갈렸던 카드를 다시 판단할 수 있어요.</p></div>';
+
+    h += '<div class="safe">이름, 사진, 친구 이야기 같은 개인정보는 넣지 않아요. 이 활동에서도 실제 정보를 쓰지 않아요.</div>';
+    return h;
+  }
+
+  function cardHtml(i) {
+    var c = CARDS[i];
+    var h = '<div class="card" style="margin:12px 0 0"><span class="tag">' + esc(KINDS[c.k]) + '</span>' +
+      '<div class="iconrow" style="margin-top:10px">' + wiseIcon(c.k, 44) +
+      '<h3 style="font-size:20px">' + esc(c.t) + '</h3></div>' +
+      '<p class="muted">이 정보를 AI에게 넣어도 될까요</p>';
+    for (var b = 0; b < BUCKETS.length; b++) {
+      h += '<button type="button" class="chip pick" data-c="' + i + '" data-b="' + b + '">' +
+        wiseIcon(["green", "yellow", "red"][b], 26) + esc(BUCKETS[b]) + '</button>';
+    }
+    h += '<div class="row" style="margin-top:10px">';
+    for (var s = 0; s < SURE.length; s++) {
+      h += '<button type="button" class="chip sure" data-c="' + i + '" data-s="' + s +
+        '" style="width:auto;margin:0">' + esc(SURE[s]) + '</button>';
+    }
+    h += '</div></div>';
+    return h;
+  }
+
+  function paint() {
+    var i = st.i;
+    if ($("deck")) { $("deck").innerHTML = cardHtml(i); bindCard(); }
+    if ($("progress")) {
+      $("progress").textContent = (i + 1) + " / " + CARDS.length + " · 판단한 카드 " + count() + "장";
+    }
+    wiseStep(st.step, 3);
+  }
+
+  function count() {
+    var n = 0;
+    for (var k in st.choice) { if (st.choice.hasOwnProperty(k)) { n++; } }
+    return n;
+  }
+
+  function bindCard() {
+    var picks = document.querySelectorAll("#activity .pick");
+    for (var i = 0; i < picks.length; i++) {
+      picks[i].onclick = function () {
+        var c = this.getAttribute("data-c"), b = this.getAttribute("data-b");
+        if (b === null || b === undefined) { return; }
+        st.choice[c] = b;
+        markCard();
+        if (Number(c) === st.i && st.i < CARDS.length - 1) {
+          st.i += 1;
+          paint();
+        } else {
+          markCard();
+        }
+      };
+    }
+    var sures = document.querySelectorAll("#activity .sure");
+    for (var j = 0; j < sures.length; j++) {
+      sures[j].onclick = function () {
+        st.sure[this.getAttribute("data-c")] = this.getAttribute("data-s");
+        markCard();
+      };
+    }
+    markCard();
+  }
+
+  function markCard() {
+    var picks = document.querySelectorAll("#activity .pick");
+    for (var i = 0; i < picks.length; i++) {
+      var c = picks[i].getAttribute("data-c"), b = picks[i].getAttribute("data-b");
+      picks[i].className = "chip pick" + (st.choice[c] === b ? " on" : "");
+    }
+    var sures = document.querySelectorAll("#activity .sure");
+    for (var j = 0; j < sures.length; j++) {
+      var c2 = sures[j].getAttribute("data-c"), s = sures[j].getAttribute("data-s");
+      sures[j].className = "chip sure" + (st.sure[c2] === s ? " on" : "");
+    }
+  }
+
+  /* ---------- 조건 쓰기 ---------- */
+
+  function condHtml() {
+    var h = "", n = 0;
+    for (var i = 0; i < CARDS.length; i++) {
+      if (st.choice[i] === "1") {
+        n++;
+        h += '<label for="cd' + i + '">' + esc(CARDS[i].t) + '</label>' +
+          '<input id="cd' + i + '" maxlength="60" placeholder="예: 이름을 지우고 상황만 쓴다면">';
+      }
+    }
+    if (!n) {
+      h = '<p class="muted">조건부로 고른 카드가 아직 없어요. 카드로 돌아가 판단을 더 해 보아요.</p>';
+    }
+    return h;
+  }
+
+  /* ---------- 리포트 ---------- */
+
+  function score() {
+    var hit = 0, judged = 0, miss = [], kind = {};
+    for (var i = 0; i < CARDS.length; i++) {
+      var v = st.choice[i];
+      if (v === undefined) { continue; }
+      judged++;
+      var gap = Math.abs(Number(v) - CARDS[i].r);
+      if (gap === 0) { hit++; } else { miss.push({ i: i, gap: gap }); }
+      if (!kind[CARDS[i].k]) { kind[CARDS[i].k] = { n: 0, hit: 0 }; }
+      kind[CARDS[i].k].n += 1;
+      if (gap === 0) { kind[CARDS[i].k].hit += 1; }
+    }
+    return { hit: hit, judged: judged, miss: miss, kind: kind };
+  }
+
+  function reportHtml() {
+    var s = score();
+    if (!s.judged) { return '<p class="muted">아직 판단한 카드가 없어요.</p>'; }
+    var h = '<p class="big">' + s.hit + ' / ' + s.judged + '</p>' +
+      '<p class="muted">기준과 같게 판단한 카드예요. 틀린 것이 나쁜 것은 아니에요. 왜 달랐는지가 더 중요해요.</p>' +
+      barHtml(s.hit, s.judged);
+
+    h += '<h3 style="margin-top:16px">유형별로 보면</h3><div class="scroll"><table>' +
+      '<tr><th>유형</th><th>판단한 카드</th><th>기준과 같음</th></tr>';
+    for (var k in s.kind) {
+      if (!s.kind.hasOwnProperty(k)) { continue; }
+      h += "<tr><td>" + esc(KINDS[k]) + "</td><td>" + s.kind[k].n + "</td><td>" +
+        s.kind[k].hit + "</td></tr>";
+    }
+    h += "</table></div>";
+
+    if (s.miss.length) {
+      h += '<h3 style="margin-top:16px">다시 볼 카드</h3>';
+      for (var m = 0; m < s.miss.length && m < 6; m++) {
+        var c = CARDS[s.miss[m].i];
+        h += '<div class="card" style="margin:8px 0"><span class="tag">' + esc(KINDS[c.k]) + '</span>' +
+          '<h3 style="margin-top:8px">' + esc(c.t) + '</h3>' +
+          '<p class="muted">나의 판단 : ' + esc(BUCKETS[st.choice[s.miss[m].i]]) +
+          ' · 기준 : ' + esc(BUCKETS[c.r]) + '</p>' +
+          '<p>' + esc(c.w) + '</p>' +
+          '<button type="button" class="chip redo" data-c="' + s.miss[m].i +
+          '" style="width:auto">생각을 바꿀래요</button></div>';
+      }
+    } else {
+      h += '<p class="ok" style="margin-top:14px">판단한 카드가 모두 기준과 같아요.</p>';
+    }
+    return h;
+  }
+
+  function bindRedo() {
+    var rs = document.querySelectorAll("#activity .redo");
+    for (var i = 0; i < rs.length; i++) {
+      rs[i].onclick = function () {
+        var c = this.getAttribute("data-c");
+        st.again[c] = true;
+        st.choice[c] = String(CARDS[c].r);
+        this.textContent = "바꿨어요";
+        this.className = "chip redo on";
+        $("report").innerHTML = reportHtml();
+        bindRedo();
+      };
+    }
+  }
+
+  /* ---------- 단계 이동 ---------- */
+
+  function goto(step) {
+    st.step = step;
+    $("s0").className = step === 0 ? "card" : "card hide";
+    $("s1").className = step === 1 ? "card" : "card hide";
+    $("s2").className = step === 2 ? "card" : "card hide";
+    if (step === 1) { $("condbox").innerHTML = condHtml(); }
+    if (step === 2) { $("report").innerHTML = reportHtml(); bindRedo(); }
+    if (step === 0) { paint(); }
+    wiseStep(step, 3);
+    wiseNote(step === 0 ? "카드를 고르면 자동으로 다음 카드로 넘어가요." :
+      (step === 1 ? "금지가 아니라 조건을 쓰는 것이 우리 반의 방식이에요." :
+        "기준과 다르게 판단한 카드를 다시 보고, 생각을 바꾸어도 좋아요."));
+  }
+
+  function activityInit(saved) {
+    if (saved && saved.choice) { st.choice = saved.choice; }
+    if (saved && saved.sure) { st.sure = saved.sure; }
+    if (saved && saved.cond) { st.cond = saved.cond; }
+    $("prev").onclick = function () { if (st.i > 0) { st.i -= 1; paint(); } };
+    $("next").onclick = function () { if (st.i < CARDS.length - 1) { st.i += 1; paint(); } };
+    $("go0").onclick = function () { goto(0); };
+    $("go1").onclick = function () { goto(1); };
+    $("go2").onclick = function () { goto(2); };
+    goto(0);
+  }
+
+  function activityDraft() {
+    return { choice: st.choice, sure: st.sure, cond: readCond() };
+  }
+
+  function readCond() {
+    var out = {};
+    for (var i = 0; i < CARDS.length; i++) {
+      if ($("cd" + i) && $("cd" + i).value) { out[i] = $("cd" + i).value.trim(); }
+    }
+    return out;
+  }
+
+  function activityAutofill() {
+    for (var i = 0; i < CARDS.length; i++) {
+      st.choice[i] = String(CARDS[i].r);
+      st.sure[i] = i % 3 === 0 ? "1" : "0";
+    }
+  }
+
+  function activityCollect() {
+    var s = score();
+    if (s.judged < 6) {
+      $("w-msg").innerHTML = '<span class="warn">카드를 6장 넘게 판단한 뒤에 제출해요. 지금 ' +
+        s.judged + '장이에요.</span>';
+      return null;
+    }
+    var unsure = 0;
+    for (var k in st.sure) { if (st.sure.hasOwnProperty(k) && st.sure[k] === "1") { unsure++; } }
+    var changed = 0;
+    for (var k2 in st.again) { if (st.again.hasOwnProperty(k2)) { changed++; } }
+    return {
+      choice: st.choice, sure: st.sure, cond: readCond(),
+      judged: s.judged, hit: s.hit, unsure: unsure, changed: changed
+    };
+  }
+
+  /* ---------- 교사 화면 ---------- */
+
+  function tally(list) {
+    var rows = [];
+    for (var i = 0; i < CARDS.length; i++) {
+      var c = [0, 0, 0], sum = 0;
+      for (var k = 0; k < list.length; k++) {
+        var ch = list[k].payload && list[k].payload.choice ? list[k].payload.choice[i] : undefined;
+        if (ch === undefined) { continue; }
+        c[Number(ch)] += 1;
+        sum++;
+      }
+      var max = Math.max(c[0], c[1], c[2]);
+      rows.push({ i: i, c: c, sum: sum, split: sum > 0 && max / sum < 0.7, risk: CARDS[i].r });
+    }
+    return rows;
+  }
+
+  function teacherSummary(list) {
+    var rows = tally(list);
+    var hit = 0, judged = 0, changed = 0;
+    for (var k = 0; k < list.length; k++) {
+      var p = list[k].payload || {};
+      hit += p.hit || 0;
+      judged += p.judged || 0;
+      changed += p.changed || 0;
+    }
+    var h = '<p class="muted">학급 안전 감각 ' + pct(hit, judged) + '% · 생각을 바꾼 횟수 ' + changed + '회</p>';
+    h += barHtml(hit, judged);
+    h += '<div class="scroll" style="margin-top:12px"><table><tr><th>카드</th><th>넣어도 돼</th>' +
+      '<th>조건부</th><th>넣으면 안 돼</th><th>살펴볼 점</th></tr>';
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      if (!r.sum) { continue; }
+      var flag = "";
+      if (r.risk === 2 && r.c[0] > 0) { flag = '<span class="warn">위험 카드를 ' + r.c[0] + '명이 넣어도 된다고 봄</span>'; }
+      else if (r.split) { flag = '<span class="warn">의견 갈림</span>'; }
+      h += "<tr><td>" + esc(CARDS[r.i].t) + "</td><td>" + r.c[0] + "</td><td>" + r.c[1] +
+        "</td><td>" + r.c[2] + "</td><td>" + flag + "</td></tr>";
+    }
+    return h + "</table></div>";
+  }
+
+  function presentHtml(list) {
+    var rows = tally(list);
+    rows.sort(function (a, b) {
+      var sa = a.sum ? Math.max(a.c[0], a.c[1], a.c[2]) / a.sum : 1;
+      var sb = b.sum ? Math.max(b.c[0], b.c[1], b.c[2]) / b.sum : 1;
+      return sa - sb;
+    });
+    var h = '<p class="muted">의견이 가장 갈린 카드부터 함께 이야기해요.</p>';
+    for (var i = 0; i < rows.length && i < 4; i++) {
+      var r = rows[i];
+      if (!r.sum) { continue; }
+      h += '<div class="card"><p class="big">' + esc(CARDS[r.i].t) + '</p>' +
+        '<div class="scroll"><table><tr><th>넣어도 돼</th><th>조건을 지키면 돼</th><th>넣으면 안 돼</th></tr>' +
+        "<tr><td>" + r.c[0] + "명</td><td>" + r.c[1] + "명</td><td>" + r.c[2] + "명</td></tr></table></div>" +
+        '<p class="muted" style="margin-top:8px">' + esc(CARDS[r.i].w) + '</p></div>';
+    }
+    return h;
+  }
+
+  /* ---------- 그림 ---------- */
+
+  function wiseIcon(kind, size) {
+    var s = size || 30;
+    var ink = "#111";
+    var body = "";
+    if (kind === "id") {
+      body = '<circle cx="24" cy="18" r="9" fill="#FFE24B" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M9 42c0-9 7-14 15-14s15 5 15 14z" fill="#FFE24B" stroke="' + ink + '" stroke-width="3"/>';
+    } else if (kind === "loc") {
+      body = '<path d="M24 5c8 0 14 6 14 14 0 10-14 24-14 24S10 29 10 19c0-8 6-14 14-14z" fill="#2B59E0" stroke="' +
+        ink + '" stroke-width="3"/><circle cx="24" cy="19" r="5" fill="#fff"/>';
+    } else if (kind === "rel") {
+      body = '<circle cx="17" cy="17" r="8" fill="#7B4FE8" stroke="' + ink + '" stroke-width="3"/>' +
+        '<circle cx="32" cy="20" r="7" fill="#fff" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M6 42c0-8 5-12 11-12s11 4 11 12z" fill="#7B4FE8" stroke="' + ink + '" stroke-width="3"/>';
+    } else if (kind === "rec") {
+      body = '<rect x="10" y="7" width="28" height="34" rx="4" fill="#fff" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M17 17h14M17 25h14M17 33h8" stroke="' + ink + '" stroke-width="3" stroke-linecap="round"/>';
+    } else if (kind === "pub") {
+      body = '<circle cx="24" cy="24" r="17" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M7 24h34M24 7c6 8 6 26 0 34M24 7c-6 8-6 26 0 34" fill="none" stroke="' + ink + '" stroke-width="2.5"/>';
+    } else if (kind === "green") {
+      body = '<circle cx="24" cy="24" r="16" fill="#16a34a" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M16 24l6 7 12-14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    } else if (kind === "yellow") {
+      body = '<circle cx="24" cy="24" r="16" fill="#eab308" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M24 14v13" stroke="#fff" stroke-width="4" stroke-linecap="round"/>' +
+        '<circle cx="24" cy="33" r="2.6" fill="#fff"/>';
+    } else if (kind === "orange") {
+      body = '<circle cx="24" cy="24" r="16" fill="#ea580c" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M24 13l12 21H12z" fill="#fff" stroke="' + ink + '" stroke-width="2"/>';
+    } else if (kind === "red") {
+      body = '<circle cx="24" cy="24" r="16" fill="#dc2626" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M16 16l16 16M32 16L16 32" stroke="#fff" stroke-width="4" stroke-linecap="round"/>';
+    } else if (kind === "me") {
+      body = '<circle cx="24" cy="16" r="8" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M10 42c0-9 6-14 14-14s14 5 14 14z" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>';
+    } else if (kind === "ai") {
+      body = '<rect x="9" y="12" width="30" height="24" rx="6" fill="#2B59E0" stroke="' + ink + '" stroke-width="3"/>' +
+        '<circle cx="18" cy="24" r="3.4" fill="#fff"/><circle cx="30" cy="24" r="3.4" fill="#fff"/>' +
+        '<path d="M24 12V6M18 40h12" stroke="' + ink + '" stroke-width="3" stroke-linecap="round"/>';
+    } else if (kind === "both") {
+      body = '<circle cx="17" cy="24" r="10" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<rect x="24" y="15" width="18" height="18" rx="5" fill="#2B59E0" stroke="' + ink + '" stroke-width="3"/>';
+    } else if (kind === "write") {
+      body = '<path d="M10 38l4-11 20-20 7 7-20 20z" fill="#FFE24B" stroke="' + ink + '" stroke-width="3" stroke-linejoin="round"/>' +
+        '<path d="M8 42h32" stroke="' + ink + '" stroke-width="3" stroke-linecap="round"/>';
+    } else if (kind === "check") {
+      body = '<rect x="9" y="9" width="30" height="30" rx="7" fill="#fff" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M16 24l6 7 12-15" stroke="#00D45A" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    } else if (kind === "again") {
+      body = '<path d="M38 24a14 14 0 1 1-5-10.7" fill="none" stroke="' + ink + '" stroke-width="4"/>' +
+        '<path d="M36 6v10h-10" fill="none" stroke="' + ink + '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>';
+    } else if (kind === "talk") {
+      body = '<rect x="7" y="10" width="34" height="22" rx="8" fill="#fff" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M16 32l0 8 9-8z" fill="#fff" stroke="' + ink + '" stroke-width="3" stroke-linejoin="round"/>' +
+        '<path d="M15 18h18M15 25h11" stroke="' + ink + '" stroke-width="3" stroke-linecap="round"/>';
+    } else if (kind === "moon") {
+      body = '<path d="M31 6a18 18 0 1 0 11 30A15 15 0 0 1 31 6z" fill="#FFE24B" stroke="' + ink + '" stroke-width="3"/>';
+    } else if (kind === "heart") {
+      body = '<path d="M24 40S8 30 8 19a8 8 0 0 1 16-3 8 8 0 0 1 16 3c0 11-16 21-16 21z" fill="#FF6B5A" stroke="' +
+        ink + '" stroke-width="3" stroke-linejoin="round"/>';
+    } else if (kind === "star") {
+      body = '<path d="M24 6l5 12 13 1-10 9 3 13-11-7-11 7 3-13-10-9 13-1z" fill="#FFE24B" stroke="' +
+        ink + '" stroke-width="3" stroke-linejoin="round"/>';
+    } else {
+      body = '<circle cx="24" cy="24" r="16" fill="#EBE3D2" stroke="' + ink + '" stroke-width="3"/>';
+    }
+    return '<svg class="wi" viewBox="0 0 48 48" width="' + s + '" height="' + s +
+      '" aria-hidden="true" focusable="false">' + body + '</svg>';
+  }
+
+  function wiseScene(kind) {
+    var ink = "#111";
+    var inner = "";
+    if (kind === "axis") {
+      inner = '<rect width="320" height="150" fill="#F6F7F9"/>' +
+        '<path d="M40 122h250M40 122V16" stroke="' + ink + '" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path d="M282 122l-10-6v12z M40 16l-6 10h12z" fill="' + ink + '"/>' +
+        '<rect x="52" y="76" width="72" height="40" rx="10" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<text x="88" y="101" font-size="15" font-weight="800" text-anchor="middle" fill="#111">보조</text>' +
+        '<rect x="130" y="56" width="72" height="40" rx="10" fill="#FFE24B" stroke="' + ink + '" stroke-width="3"/>' +
+        '<text x="166" y="81" font-size="15" font-weight="800" text-anchor="middle" fill="#111">경계</text>' +
+        '<rect x="206" y="30" width="72" height="40" rx="10" fill="#FF6B5A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<text x="242" y="55" font-size="15" font-weight="800" text-anchor="middle" fill="#111">대행</text>' +
+        '<text x="150" y="142" font-size="13" font-weight="700" text-anchor="middle" fill="#6b7280">생각을 누가 했나</text>' +
+        '<text x="14" y="70" font-size="13" font-weight="700" fill="#6b7280" transform="rotate(-90 14 70)">결과물</text>';
+    } else if (kind === "steps3") {
+      inner = '<rect width="320" height="120" fill="#F6F7F9"/>' +
+        '<rect x="12" y="28" width="86" height="60" rx="14" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<text x="55" y="64" font-size="15" font-weight="800" text-anchor="middle">내 생각</text>' +
+        '<rect x="117" y="28" width="86" height="60" rx="14" fill="#FFE24B" stroke="' + ink + '" stroke-width="3"/>' +
+        '<text x="160" y="64" font-size="15" font-weight="800" text-anchor="middle">AI 검토</text>' +
+        '<rect x="222" y="28" width="86" height="60" rx="14" fill="#2B59E0" stroke="' + ink + '" stroke-width="3"/>' +
+        '<text x="265" y="64" font-size="15" font-weight="800" text-anchor="middle" fill="#fff">내 말로</text>' +
+        '<path d="M100 58h15M205 58h15" stroke="' + ink + '" stroke-width="4" stroke-linecap="round"/>';
+    } else if (kind === "signal") {
+      inner = '<rect width="320" height="120" fill="#F6F7F9"/>' +
+        '<rect x="16" y="18" width="288" height="84" rx="18" fill="#fff" stroke="' + ink + '" stroke-width="3"/>' +
+        '<circle cx="70" cy="60" r="22" fill="#16a34a" stroke="' + ink + '" stroke-width="3"/>' +
+        '<circle cx="130" cy="60" r="22" fill="#eab308" stroke="' + ink + '" stroke-width="3"/>' +
+        '<circle cx="190" cy="60" r="22" fill="#ea580c" stroke="' + ink + '" stroke-width="3"/>' +
+        '<circle cx="250" cy="60" r="22" fill="#dc2626" stroke="' + ink + '" stroke-width="3"/>';
+    } else if (kind === "room") {
+      inner = '<rect width="320" height="120" fill="#F6F7F9"/>' +
+        '<rect x="16" y="26" width="120" height="68" rx="14" fill="#fff" stroke="' + ink + '" stroke-width="3"/>' +
+        '<text x="76" y="58" font-size="14" font-weight="800" text-anchor="middle">방 코드</text>' +
+        '<text x="76" y="80" font-size="20" font-weight="900" text-anchor="middle" fill="#2B59E0">482913</text>' +
+        '<path d="M144 60h28" stroke="' + ink + '" stroke-width="4" stroke-linecap="round"/>' +
+        '<path d="M166 52l10 8-10 8z" fill="' + ink + '"/>' +
+        '<circle cx="212" cy="48" r="14" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M192 94c0-12 9-18 20-18s20 6 20 18z" fill="#00D45A" stroke="' + ink + '" stroke-width="3"/>' +
+        '<circle cx="272" cy="48" r="14" fill="#FFE24B" stroke="' + ink + '" stroke-width="3"/>' +
+        '<path d="M252 94c0-12 9-18 20-18s20 6 20 18z" fill="#FFE24B" stroke="' + ink + '" stroke-width="3"/>';
+    } else {
+      inner = '<rect width="320" height="120" fill="#F6F7F9"/>';
+    }
+    var vb = kind === "axis" ? "0 0 320 150" : "0 0 320 120";
+    return '<svg class="ws-scene" viewBox="' + vb + '" aria-hidden="true">' + inner + '</svg>';
+  }
+
+
+  function activityIntro() {
+    return "<svg class=\"art\" viewBox=\"0 0 320 180\" role=\"img\" aria-hidden=\"true\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"320\" height=\"180\" fill=\"#F4EEE0\"/><rect x=\"26\" y=\"70\" width=\"72\" height=\"60\" rx=\"10\" fill=\"#FFE24B\" stroke=\"#111111\" stroke-width=\"3\"/><path d=\"M44 70 v-14 a18 18 0 0 1 36 0 v14\" fill=\"none\" stroke=\"#111111\" stroke-width=\"7\"/><circle cx=\"62\" cy=\"98\" r=\"9\" fill=\"#FFFFFF\" stroke=\"#111111\" stroke-width=\"3\"/><rect x=\"126\" y=\"52\" width=\"52\" height=\"80\" rx=\"10\" fill=\"#00D45A\" stroke=\"#111111\" stroke-width=\"3\"/><rect x=\"192\" y=\"52\" width=\"52\" height=\"80\" rx=\"10\" fill=\"#FFE24B\" stroke=\"#111111\" stroke-width=\"3\"/><rect x=\"258\" y=\"52\" width=\"52\" height=\"80\" rx=\"10\" fill=\"#FF6B5A\" stroke=\"#111111\" stroke-width=\"3\"/><path d=\"M140 96 l10 10 18 -22\" stroke=\"#111111\" stroke-width=\"6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"206\" y=\"102\" font-size=\"26\" font-weight=\"900\" fill=\"#111111\">?</text><path d=\"M272 84 l24 24 M296 84 l-24 24\" stroke=\"#111111\" stroke-width=\"6\" stroke-linecap=\"round\"/></svg><p><b>4차시 · 정보 분류 카드</b><br>정보 카드 24장을 입력 가능·조건부·입력 금지로 끌어다 놓고, 근거를 적어 학급 결과와 비교한다. 방 코드가 없으면 혼자 체험해 보기로 눌러 봐요.</p>";
+  }
+
+
+  /* ---------- 학생 흐름 ---------- */
+
+  function enter(solo) {
+    var room = onlyDigits($("w-room").value, 6);
+    var pw = onlyDigits($("w-pw").value, 4);
+    var nick = $("w-nick").value.trim();
+    var group = $("w-group").value.trim();
+
+    if (!nick) { $("w-gate-msg").textContent = "닉네임을 써 주세요."; return; }
+    if (!solo && room.length !== 6) { $("w-gate-msg").textContent = "방 코드 6자리를 정확히 써 주세요."; return; }
+
+    me = { room: solo ? "solo" : room, pw: pw, nick: nick, group: group, solo: !!solo };
+    $("w-who").textContent = me.nick + (me.group ? " · " + me.group : "") +
+      (me.solo ? " · 혼자 체험" : " · " + me.room);
+    $("activity").innerHTML = activityHtml();
+    activityInit(loadLocal());
+    startDraft();
+    show("stage");
+  }
+
+  function loadLocal() {
+    try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || "null"); }
+    catch (e) { return null; }
+  }
+
+  function startDraft() {
+    if (draftTimer) { clearInterval(draftTimer); }
+    if (typeof activityDraft !== "function") { return; }
+    draftTimer = setInterval(function () {
+      try {
+        var d = activityDraft();
+        if (d) { wiseDraft(d); }
+      } catch (e) {}
+    }, 8000);
+  }
+
+  function submit() {
+    var payload = activityCollect();
+    if (payload === null) { return; }
+
+    try { localStorage.setItem(LOCAL_KEY, JSON.stringify(payload)); } catch (e) {}
+
+    if (me.solo) {
+      $("w-msg").innerHTML = '<span class="ok">이 기기에만 저장했어요. 혼자 체험 중이에요.</span>';
+      return;
+    }
+
+    var record = {
+      nick: me.nick, group: me.group, app: APP,
+      room: me.room, at: Date.now(), payload: payload
+    };
+
+    $("w-sync").textContent = "저장 중...";
+    dbPush(me.room + "/entries", record).then(function () {
+      $("w-sync").textContent = "저장됨";
+      $("w-msg").innerHTML = '<span class="ok">제출했어요. 고쳐서 다시 제출해도 괜찮아요.</span>';
+      sheetBackup(record);
+    })["catch"](function () {
+      $("w-sync").textContent = "저장 실패";
+      $("w-msg").innerHTML = '<span class="warn">인터넷이 불안정해요. 쓴 내용은 이 기기에 남아 있어요. 잠시 뒤 다시 제출해 주세요.</span>';
+    });
+  }
+
+  /* ---------- 교사 흐름 ---------- */
+
+  function teacherMake() {
+    var code = makeCode();
+    var pw = onlyDigits($("w-pw").value, 4) || "0000";
+    dbPut(code + "/meta", { app: APP, pw: pw, at: Date.now(), locked: false })
+      .then(function () { teacherOpen(code, pw); })
+      ["catch"](function () { alert("방을 만들지 못했어요. 인터넷을 확인해 주세요."); });
+  }
+
+  function teacherOpen(code, pw) {
+    me.room = code;
+    $("t-code").textContent = code;
+    $("t-pw").textContent = "비밀번호 " + (pw || "-") + " · 이 화면을 닫아도 방은 사라지지 않아요.";
+    $("t-room").className = "";
+    $("t-board").className = "card";
+    teacherRefresh();
+    if (timer) { clearInterval(timer); }
+    timer = setInterval(teacherRefresh, 3000);
+  }
+
+  function teacherRefresh() {
+    if (!me.room) { return; }
+    dbGet(me.room + "/entries").then(function (data) {
+      var rows = [];
+      for (var k in data) { if (data.hasOwnProperty(k)) { rows.push(data[k]); } }
+      rows.sort(function (a, b) { return (a.at || 0) - (b.at || 0); });
+
+      var latest = {};
+      for (var i = 0; i < rows.length; i++) { latest[rows[i].nick] = rows[i]; }
+      var list = [];
+      for (var n in latest) { if (latest.hasOwnProperty(n)) { list.push(latest[n]); } }
+
+      $("t-count").textContent = list.length + "명";
+      $("t-note").textContent = noteFor(list, rows.length);
+      $("t-summary").innerHTML = teacherSummary(list);
+      $("t-table").innerHTML = teacherTable(list);
+      window.__wiseRows = list;
+      if ($("present").className === "") { paintPresent(list); }
+    })["catch"](function () {});
+  }
+
+  function noteFor(list, tries) {
+    if (!list.length) { return "아직 제출이 없어요. 학생에게 방 코드를 알려 주세요."; }
+    var groups = {}, n = 0;
+    for (var i = 0; i < list.length; i++) {
+      var g = list[i].group || "모둠 없음";
+      if (!groups[g]) { groups[g] = 0; n++; }
+      groups[g] += 1;
+    }
+    var last = 0;
+    for (var k = 0; k < list.length; k++) { if (list[k].at > last) { last = list[k].at; } }
+    return "모둠 " + n + "개 · 제출 시도 " + tries + "회 · 마지막 제출 " +
+      new Date(last).toLocaleTimeString("ko-KR");
+  }
+
+  function paintPresent(list) {
+    var html = "";
+    try {
+      html = (typeof presentHtml === "function") ? presentHtml(list) : teacherSummary(list);
+    } catch (e) { html = teacherSummary(list); }
+    $("p-title").textContent = "우리 반 결과 · " + list.length + "명";
+    $("p-body").innerHTML = html;
+  }
+
+  function teacherTable(list) {
+    var h = "<tr><th>닉네임</th><th>모둠</th><th>제출 시각</th><th>내용</th></tr>";
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i];
+      h += "<tr><td>" + esc(r.nick) + "</td><td>" + esc(r.group) + "</td><td>" +
+        new Date(r.at).toLocaleTimeString("ko-KR") + "</td><td>" +
+        esc(JSON.stringify(r.payload).slice(0, 180)) + "</td></tr>";
+    }
+    return h;
+  }
+
+  function toCsv(list) {
+    var lines = ["닉네임,모둠,제출시각,내용"];
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i];
+      lines.push([r.nick, r.group, new Date(r.at).toLocaleString("ko-KR"),
+        JSON.stringify(r.payload)].map(function (v) {
+          return '"' + String(v).split('"').join('""') + '"';
+        }).join(","));
+    }
+    return lines.join("\n");
+  }
+
+  function download() {
+    var list = window.__wiseRows || [];
+    var blob = new Blob(["\ufeff" + toCsv(list)], { type: "text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = APP + "_" + me.room + ".csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  /* ---------- 연결 ---------- */
+
+  $("w-enter").onclick = function () { enter(false); };
+  $("w-solo").onclick = function () { enter(true); };
+  $("w-teacher").onclick = function () { show("teacher"); };
+  $("w-submit").onclick = submit;
+  $("w-leave").onclick = function () {
+    if (timer) { clearInterval(timer); }
+    if (draftTimer) { clearInterval(draftTimer); }
+    show("gate");
+  };
+
+  $("t-make").onclick = teacherMake;
+  $("t-open").onclick = function () {
+    var code = onlyDigits(prompt("방 코드 6자리를 넣어 주세요.") || "", 6);
+    if (code.length === 6) { teacherOpen(code, ""); }
+  };
+  $("t-back").onclick = function () { if (timer) { clearInterval(timer); } show("gate"); };
+  $("t-refresh").onclick = teacherRefresh;
+  $("t-csv").onclick = download;
+  $("t-detail").onclick = function () {
+    var open = $("t-wrap").className.indexOf("hide") < 0;
+    $("t-wrap").className = open ? "scroll hide" : "scroll";
+    this.textContent = open ? "낱낱이 보기 켜기" : "낱낱이 보기 끄기";
+  };
+  $("t-present").onclick = function () {
+    paintPresent(window.__wiseRows || []);
+    show("present");
+  };
+  $("p-close").onclick = function () { show("teacher"); };
+  $("t-lock").onclick = function () {
+    dbPut(me.room + "/meta/locked", true).then(function () { alert("방을 잠갔어요."); });
+  };
+  $("t-copy").onclick = function () {
+    var code = $("t-code").textContent;
+    var done = function () { $("t-copy").textContent = "복사됨";
+      setTimeout(function () { $("t-copy").textContent = "복사"; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(done)["catch"](function () { fallbackCopy(code, done); });
+    } else { fallbackCopy(code, done); }
+  };
+
+  /* 입장 화면에 이 활동을 소개하는 그림을 깐다. 혼자 열어 본 학생을 위한 것이다. */
+  if (typeof activityIntro === "function") {
+    try {
+      $("w-intro").innerHTML = activityIntro();
+      $("w-intro").className = "intro";
+    } catch (e) {}
+  }
+
+  /* 자동 검사용 통로. 수업 화면에는 영향이 없다. */
+  if (typeof window !== "undefined") {
+    window.__wiseTest = {
+      app: APP,
+      activityHtml: activityHtml,
+      activityInit: activityInit,
+      activityCollect: activityCollect,
+      teacherSummary: teacherSummary,
+      presentHtml: (typeof presentHtml === "function") ? presentHtml : null,
+      activityAutofill: (typeof activityAutofill === "function") ? activityAutofill : null,
+      setMe: function (v) { me = v; }
+    };
+  }
+
+  function fallbackCopy(text, done) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) { alert(text); }
+    document.body.removeChild(ta);
+  }
+})();
+</script>
