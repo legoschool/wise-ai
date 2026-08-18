@@ -63,6 +63,12 @@ color:var(--accent);font-size:14px;font-weight:600;margin-top:12px}
 #wise-app .warn{color:#b45309;font-weight:700}
 #wise-app .big{font-size:30px;font-weight:800;line-height:1.25}
 #wise-app .foot{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
+#wise-app .wtop{position:sticky;top:0;z-index:40;display:flex;gap:8px;align-items:center;
+flex-wrap:nowrap;overflow-x:auto;background:var(--bg);padding:10px 0;margin:-18px 0 10px}
+#wise-app .wtop a,#wise-app .wtop button{font-size:13px;font-weight:700;color:var(--ink);
+background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;min-height:38px;
+white-space:nowrap;text-decoration:none;cursor:pointer}
+#wise-app .wtop a:hover,#wise-app .wtop button:hover{background:var(--accent-soft);color:var(--accent)}
 #wise-app .wi{vertical-align:middle;margin-right:8px;flex:none}
 #wise-app .ws-scene{display:block;width:100%;height:164px;border:2px solid var(--line);
 border-radius:14px;background:#fff;margin:10px 0 6px}
@@ -100,6 +106,14 @@ border-radius:14px;background:#fff}
 #wise-app .ws-scene{height:120px}}
 @media (prefers-reduced-motion:reduce){#wise-app *{transition:none!important;animation:none!important}}
 </style>
+
+<nav id="w-top" class="wtop hide">
+  <a href="../../index.html">WISE 홈</a>
+  <a href="../../browse.html">둘러보기</a>
+  <a href="../../lesson/L07.html">차시 페이지</a>
+  <a href="../../deck/L07.html">수업 슬라이드</a>
+  <button type="button" id="w-restart">처음부터</button>
+</nav>
 
 <div class="hd">
   <h1>우리 반 AI 약속</h1>
@@ -999,6 +1013,18 @@ border-radius:14px;background:#fff}
       navigator.clipboard.writeText(code).then(done)["catch"](function () { fallbackCopy(code, done); });
     } else { fallbackCopy(code, done); }
   };
+
+  /* 구글 사이트에 끼워 넣었을 때는 상단바를 숨긴다. 따로 열었을 때만 길을 보여 준다. */
+  try {
+    if (window.self === window.top) {
+      $("w-top").className = "wtop";
+      $("w-restart").onclick = function () {
+        if (timer) { clearInterval(timer); }
+        if (draftTimer) { clearInterval(draftTimer); }
+        show("gate");
+      };
+    }
+  } catch (e) {}
 
   /* 입장 화면에 이 활동을 소개하는 그림을 깐다. 혼자 열어 본 학생을 위한 것이다. */
   if (typeof activityIntro === "function") {

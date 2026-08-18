@@ -244,6 +244,22 @@ footer strong{color:var(--ink)}
 .credit summary:hover .more{background:var(--sun)}
 .credit-body{margin-top:10px;border-top:2px solid var(--line);padding-top:12px}
 
+/* 상단바 고정 */
+
+.top{position:sticky;top:0;z-index:50;background:var(--cream);
+  box-shadow:0 2px 0 var(--line)}
+
+/* 자료 인용 */
+
+.refs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:14px}
+.ref{border:2.5px solid var(--line);border-radius:14px;background:var(--paper);padding:14px 16px}
+.ref .kind{display:inline-block;background:var(--sun);border:2px solid var(--line);border-radius:999px;
+  padding:2px 10px;font-size:12px;font-weight:800;margin-bottom:8px}
+.ref a{font-weight:800;word-break:break-all}
+.ref p{font-size:14px;color:var(--ink2);margin-top:6px}
+.refslot{border:2.5px dashed var(--line);border-radius:14px;background:var(--cream-d);padding:14px 16px;
+  font-size:14px;color:var(--muted)}
+
 /* 그림 */
 
 .art{display:block;width:100%;height:auto}
