@@ -9,7 +9,7 @@
 --accent:#059669;--accent-soft:#ecfdf5;
 --shadow:5px 5px 0 var(--line);
 font-family:"Pretendard","Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",system-ui,sans-serif;
-color:var(--ink2);background:var(--bg);line-height:1.7;font-size:16px;
+color:var(--ink2);background:var(--bg);line-height:1.7;font-size:19px;
 padding:18px;max-width:1040px;margin:0 auto;-webkit-text-size-adjust:100%}
 #wise-app h1,#wise-app h2,#wise-app h3{margin:0;color:var(--ink);font-weight:900;line-height:1.28;
 letter-spacing:-.028em}
@@ -17,21 +17,21 @@ letter-spacing:-.028em}
 padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 #wise-app .hd::after{content:"";position:absolute;right:-40px;top:-60px;width:200px;height:200px;
 border-radius:50%;background:rgba(255,255,255,.12)}
-#wise-app .hd h1{font-size:23px;color:#fff}
-#wise-app .hd p{margin:6px 0 0;font-size:14px;opacity:.95;font-weight:700}
+#wise-app .hd h1{font-size:28px;color:#fff}
+#wise-app .hd p{margin:6px 0 0;font-size:17px;opacity:.95;font-weight:700}
 #wise-app .card{background:var(--paper);border:3px solid var(--line);border-radius:16px;padding:20px;
 margin-bottom:16px;box-shadow:var(--shadow)}
-#wise-app .card h2{font-size:19px;margin-bottom:10px}
-#wise-app .card h3{font-size:16px}
+#wise-app .card h2{font-size:24px;margin-bottom:10px}
+#wise-app .card h3{font-size:20px}
 #wise-app .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-#wise-app label{display:block;font-size:14px;color:var(--muted);margin:12px 0 4px;font-weight:800}
+#wise-app label{display:block;font-size:17px;color:var(--muted);margin:12px 0 4px;font-weight:800}
 #wise-app input,#wise-app textarea,#wise-app select{
-width:100%;font:inherit;font-size:18px;padding:13px 14px;border:2.5px solid var(--line);
+width:100%;font:inherit;font-size:20px;padding:14px 15px;border:2.5px solid var(--line);
 border-radius:12px;background:#fff;color:var(--ink)}
 #wise-app input:focus,#wise-app textarea:focus,#wise-app select:focus{
 outline:3px solid var(--sun);outline-offset:2px}
 #wise-app textarea{min-height:104px;resize:vertical}
-#wise-app button{font:inherit;font-size:16px;font-weight:900;min-height:48px;padding:12px 18px;
+#wise-app button{font:inherit;font-size:19px;font-weight:900;min-height:52px;padding:13px 20px;
 border-radius:12px;border:2.5px solid var(--line);background:var(--green);color:var(--ink);
 cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 #wise-app button:hover{background:var(--sun)}
@@ -40,20 +40,20 @@ cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 #wise-app button.plain{background:#fff;color:var(--muted);box-shadow:none}
 #wise-app button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 #wise-app .code{font-size:38px;font-weight:900;letter-spacing:.16em;color:var(--accent)}
-#wise-app .muted{color:var(--muted);font-size:14px}
+#wise-app .muted{color:var(--muted);font-size:17px}
 #wise-app .pill{display:inline-block;padding:5px 13px;border-radius:999px;background:var(--sun);
-border:2.5px solid var(--line);color:var(--ink);font-size:13px;font-weight:900}
+border:2.5px solid var(--line);color:var(--ink);font-size:15px;font-weight:900}
 #wise-app .tag{display:inline-block;padding:3px 10px;border-radius:999px;background:#fff;
-border:2px solid var(--line);color:var(--ink2);font-size:12px;font-weight:800;margin-right:4px}
+border:2px solid var(--line);color:var(--ink2);font-size:14px;font-weight:800;margin-right:4px}
 #wise-app .hide{display:none}
 #wise-app .bucket{border:3px dashed var(--line);border-radius:14px;padding:12px;min-height:120px;
 background:#fff}
-#wise-app .bucket h3{font-size:15px;margin-bottom:8px}
+#wise-app .bucket h3{font-size:18px;margin-bottom:8px}
 #wise-app .grid{display:grid;gap:12px}
 #wise-app .g2{display:grid;gap:14px;grid-template-columns:1fr 1fr}
-#wise-app .chip{display:block;width:100%;text-align:left;padding:13px 15px;margin-bottom:10px;
+#wise-app .chip{display:block;width:100%;text-align:left;padding:15px 17px;margin-bottom:10px;font-size:19px;
 border:2.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-weight:700;
-min-height:48px;box-shadow:3px 3px 0 var(--line)}
+min-height:52px;box-shadow:3px 3px 0 var(--line)}
 #wise-app .chip:hover{background:var(--bg-d)}
 #wise-app .chip.on{background:var(--accent);color:#fff}
 #wise-app .bar{height:16px;border-radius:8px;background:#fff;border:2.5px solid var(--line);
@@ -62,59 +62,78 @@ overflow:hidden}
 #wise-app .steps{display:flex;gap:6px;margin:12px 0 0}
 #wise-app .steps>span{flex:1;height:10px;border-radius:6px;background:#fff;border:2px solid var(--line)}
 #wise-app .steps>span.on{background:var(--green)}
-#wise-app table{width:100%;border-collapse:collapse;font-size:14px}
+#wise-app table{width:100%;border-collapse:collapse;font-size:17px}
 #wise-app th,#wise-app td{border:2px solid var(--line);padding:9px 11px;text-align:left;
 vertical-align:top}
 #wise-app th{background:var(--bg-d);font-weight:900;color:var(--ink)}
 #wise-app .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 #wise-app .safe{margin-top:14px;padding:14px 16px;border-radius:12px;background:#FFF3D6;
-border:2.5px solid var(--line);color:var(--ink2);font-size:14px;font-weight:700}
+border:2.5px solid var(--line);color:var(--ink2);font-size:16px;font-weight:700}
 #wise-app .note{padding:13px 15px;border-radius:12px;background:var(--sun);
-border:2.5px solid var(--line);color:var(--ink);font-size:14px;font-weight:800;margin-top:12px}
+border:2.5px solid var(--line);color:var(--ink);font-size:17px;font-weight:800;margin-top:12px}
 #wise-app .ok{color:#0B7A3B;font-weight:900}
 #wise-app .warn{color:#B03A00;font-weight:900}
 #wise-app .big{font-size:34px;font-weight:900;line-height:1.2;color:var(--ink)}
-#wise-app .foot{text-align:center;color:var(--muted);font-size:12px;padding:16px 0;font-weight:700}
+#wise-app .foot{text-align:center;color:var(--muted);font-size:14px;padding:16px 0;font-weight:700}
 #wise-app .wi{vertical-align:middle;margin-right:8px;flex:none}
 #wise-app .ws-scene{display:block;width:100%;height:164px;border:2.5px solid var(--line);
 border-radius:14px;background:#fff;margin:10px 0 6px}
 #wise-app .iconrow{display:flex;align-items:center;gap:8px}
 #wise-app .quest{display:none}
-#wise-app .quest.on{display:block;animation:wfade .25s ease-out}
-@keyframes wfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#wise-app .quest.on{display:block;animation:wfade .34s cubic-bezier(.22,.61,.36,1)}
+@keyframes wfade{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+#wise-app .spin{display:inline-block;width:20px;height:20px;border-radius:50%;
+border:3px solid var(--bg-d);border-top-color:var(--ink);animation:wspin .7s linear infinite;
+vertical-align:middle;margin-right:8px}
+#wise-app .spin.big{width:34px;height:34px;border-width:4px}
+@keyframes wspin{to{transform:rotate(360deg)}}
+#wise-app .loading{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);
+padding:14px 0}
+#wise-app .skel{height:16px;border-radius:8px;background:var(--bg-d);margin:8px 0;
+animation:wpulse 1.1s ease-in-out infinite}
+#wise-app .skel.w60{width:60%}
+#wise-app .skel.w80{width:80%}
+@keyframes wpulse{0%,100%{opacity:1}50%{opacity:.45}}
+#wise-app button.busy{position:relative;color:var(--muted)}
+#wise-app .busy-wrap{position:fixed;inset:0;background:rgba(244,238,224,.72);display:flex;
+align-items:center;justify-content:center;z-index:65}
+#wise-app .busy-wrap .box{background:#fff;border:3px solid var(--line);border-radius:18px;
+padding:20px 26px;box-shadow:6px 6px 0 var(--line);display:flex;align-items:center;gap:12px;
+font-weight:900;color:var(--ink)}
+#wise-app .fade-in{animation:wfade .28s ease-out}
 #wise-app .hud{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#fff;
 border:2.5px solid var(--line);border-radius:14px;padding:11px 15px;margin-bottom:14px;
-font-weight:800;font-size:14px;color:var(--ink);box-shadow:3px 3px 0 var(--line)}
+font-weight:800;font-size:17px;color:var(--ink);box-shadow:3px 3px 0 var(--line)}
 #wise-app .hud .grow{flex:1;min-width:120px}
 #wise-app .tile{border:3px solid var(--line);border-radius:16px;padding:16px;background:#fff;
-text-align:left;font-weight:800;min-height:112px;display:flex;flex-direction:column;gap:6px;
+text-align:left;font-weight:800;font-size:20px;min-height:118px;display:flex;flex-direction:column;gap:6px;
 box-shadow:var(--shadow);color:var(--ink)}
-#wise-app .tile small{font-weight:700;color:var(--muted);font-size:13px}
+#wise-app .tile small{font-weight:700;color:var(--muted);font-size:16px}
 #wise-app .tile.done{background:var(--sun)}
 #wise-app .cele{position:fixed;inset:0;background:rgba(17,17,17,.6);display:flex;align-items:center;
 justify-content:center;padding:20px;z-index:60}
 #wise-app .cele .box{background:#fff;border:3px solid var(--line);border-radius:22px;padding:26px;
 max-width:460px;width:100%;text-align:center;box-shadow:8px 8px 0 var(--line)}
-#wise-app .cele h2{font-size:25px;margin-bottom:10px}
+#wise-app .cele h2{font-size:28px;margin-bottom:10px}
 #wise-app .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);
-color:#fff;padding:12px 20px;border-radius:999px;font-weight:800;font-size:14px;z-index:70;
+color:#fff;padding:13px 22px;border-radius:999px;font-weight:800;font-size:17px;z-index:70;
 border:2.5px solid var(--line)}
 #wise-app canvas{max-width:100%;height:auto;border-radius:12px}
 #wise-app .intro{margin:-4px 0 16px}
 #wise-app .intro svg{display:block;width:100%;height:168px;border:2.5px solid var(--line);
 border-radius:14px;background:#fff}
-#wise-app .intro p{margin:10px 0 0;font-size:15px;color:var(--muted);font-weight:700}
+#wise-app .intro p{margin:10px 0 0;font-size:18px;color:var(--muted);font-weight:700}
 #wise-app .intro b{color:var(--ink)}
 #wise-app .wtop{position:sticky;top:0;z-index:40;display:flex;gap:8px;align-items:center;
 flex-wrap:nowrap;overflow-x:auto;background:var(--bg);padding:10px 0;margin:-18px 0 12px}
-#wise-app .wtop a,#wise-app .wtop button{font-size:13px;font-weight:800;color:var(--ink);
-background:#fff;border:2.5px solid var(--line);border-radius:999px;padding:8px 14px;min-height:38px;
+#wise-app .wtop a,#wise-app .wtop button{font-size:15px;font-weight:800;color:var(--ink);
+background:#fff;border:2.5px solid var(--line);border-radius:999px;padding:9px 16px;min-height:44px;
 white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
 #wise-app .wtop a:hover,#wise-app .wtop button:hover{background:var(--sun)}
 #wise-app #present .card{border-radius:20px}
-#wise-app #present table{font-size:19px}
+#wise-app #present table{font-size:23px}
 #wise-app #present .big{font-size:46px}
-@media (max-width:640px){#wise-app{padding:10px;font-size:15px}#wise-app .hd h1{font-size:19px}
+@media (max-width:640px){#wise-app{padding:10px;font-size:18px}#wise-app .hd h1{font-size:23px}
 #wise-app .g2{grid-template-columns:1fr}#wise-app .intro svg{height:126px}
 #wise-app .ws-scene{height:120px}}
 @media (prefers-reduced-motion:reduce){#wise-app *{transition:none!important;animation:none!important}}
@@ -233,6 +252,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
 </section>
 
 <div id="w-cele" class="hide"></div>
+<div id="w-busy" class="hide"></div>
 <div id="w-toast" class="hide"></div>
 
 <p class="foot">2026년 티처스랩 5기 교사연구회 A.N.D · CC BY-NC-SA</p>
@@ -341,6 +361,62 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
   }
 
   /* 여정 화면 전환. 활동이 만든 .quest 조각을 갈아 끼운다. */
+  /* 여정형 앱에서 다음 화면으로 가는 버튼을 화면마다 자동으로 붙인다.
+     허브로 돌아갔다가 다시 고르게 하면 학생이 거기서 멈춘다.
+     차시 코드가 이미 '...로 가기' 버튼을 만들어 두었으면 건드리지 않는다. */
+  function addNextButtons() {
+    var qs = document.querySelectorAll("#activity .quest");
+    if (qs.length < 3) { return; }
+    var ids = [], titles = [], i;
+    for (i = 0; i < qs.length; i++) {
+      ids.push(qs[i].getAttribute("data-q"));
+      var h = qs[i].querySelector("h2");
+      titles.push(h ? h.textContent.trim() : "다음");
+    }
+    for (i = 0; i < qs.length; i++) {
+      var id = ids[i];
+      if (id === "story" || id === "hub") { continue; }
+      if (i + 1 >= qs.length) { continue; }
+      if (hasForward(qs[i])) { continue; }
+      var row = document.createElement("div");
+      row.className = "row autonext";
+      row.style.marginTop = "10px";
+      var b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("data-next", ids[i + 1]);
+      b.textContent = "다음 : " + titles[i + 1];
+      b.onclick = function () { wiseGo(this.getAttribute("data-next")); };
+      row.appendChild(b);
+      var card = qs[i].querySelector(".card");
+      (card || qs[i]).appendChild(row);
+    }
+  }
+
+  /* 이미 앞으로 가는 버튼이 있는가. '교무실로' 같은 되돌아가기와
+     '다음 카드' 같은 같은 화면 안 이동은 세지 않는다. */
+  function hasForward(sec) {
+    var bs = sec.querySelectorAll("button");
+    for (var i = 0; i < bs.length; i++) {
+      var b = bs[i];
+      if (b.parentNode && /autonext/.test(b.parentNode.className || "")) { continue; }
+      var t = b.textContent || "";
+      var bid = b.id || "";
+      if (/(다음 카드|다음 문항|앞 카드|앞 문항|돌아가기|돌아가)/.test(t)) { continue; }
+      if (/-go$|^go-/.test(bid)) { return true; }
+      if (/(로 가기|으로 가기|보러 가기|하러 가기|넘어가|이어서 하기)/.test(t)) { return true; }
+    }
+    return false;
+  }
+
+  /* 차시 코드가 뒤늦게 만들어 내는 '…로 가기' 버튼과 겹치지 않게,
+     화면에 들어올 때마다 자동 버튼을 보일지 말지 다시 정한다. */
+  function syncNextButton(sec) {
+    if (!sec) { return; }
+    var row = sec.querySelector(".autonext");
+    if (!row) { return; }
+    row.style.display = hasForward(sec) ? "none" : "";
+  }
+
   function wiseGo(id) {
     var qs = document.querySelectorAll("#activity .quest");
     for (var i = 0; i < qs.length; i++) {
@@ -349,6 +425,9 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     if (window.scrollTo) { window.scrollTo(0, 0); }
     if (typeof activityEnter === "function") {
       try { activityEnter(id); } catch (e) {}
+    }
+    for (var k = 0; k < qs.length; k++) {
+      if (qs[k].getAttribute("data-q") === id) { syncNextButton(qs[k]); }
     }
   }
 
@@ -363,6 +442,40 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     h += '<span class="grow">' + barHtml(first.done, first.total) + '</span>';
     $("w-hud").innerHTML = h;
     $("w-hud").className = "hud";
+  }
+
+  /* 기다리는 동안 무엇을 하는 중인지 보여 준다. 화면이 멈춘 것처럼 보이지 않게 한다. */
+  function wiseSpinner(text, big) {
+    return '<div class="loading"><span class="spin' + (big ? " big" : "") + '"></span>' +
+      '<span>' + esc(text || "불러오는 중이에요") + '</span></div>';
+  }
+
+  function wiseSkeleton(lines) {
+    var n = lines || 3, h = "";
+    for (var i = 0; i < n; i++) {
+      h += '<div class="skel ' + (i % 3 === 1 ? "w80" : (i % 3 === 2 ? "w60" : "")) + '"></div>';
+    }
+    return h;
+  }
+
+  function wiseBusy(on, text) {
+    if (!on) { $("w-busy").className = "hide"; return; }
+    $("w-busy").innerHTML = '<div class="busy-wrap"><div class="box">' +
+      '<span class="spin big"></span><span>' + esc(text || "잠시만요") + '</span></div></div>';
+    $("w-busy").className = "";
+  }
+
+  /* 버튼을 누른 뒤 끝날 때까지 눌리지 않게 한다. */
+  function wiseButtonBusy(el, on, text) {
+    if (!el) { return; }
+    if (on) {
+      el.setAttribute("data-orig", el.textContent);
+      el.innerHTML = '<span class="spin"></span>' + esc(text || "하는 중");
+      el.disabled = true;
+    } else {
+      el.textContent = el.getAttribute("data-orig") || el.textContent;
+      el.disabled = false;
+    }
   }
 
   function wiseToast(text) {
@@ -851,6 +964,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       (me.solo ? " · 혼자 체험" : " · " + me.room);
     $("activity").innerHTML = activityHtml();
     activityInit(loadLocal());
+    addNextButtons();
     startDraft();
     show("stage");
   }
@@ -887,12 +1001,15 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       room: me.room, at: Date.now(), payload: payload
     };
 
-    $("w-sync").textContent = "저장 중...";
+    $("w-sync").innerHTML = '<span class="spin"></span>저장 중';
+    wiseButtonBusy($("w-submit"), true, "보내는 중");
     dbPush(me.room + "/entries", record).then(function () {
+      wiseButtonBusy($("w-submit"), false);
       $("w-sync").textContent = "저장됨";
       $("w-msg").innerHTML = '<span class="ok">제출했어요. 고쳐서 다시 제출해도 괜찮아요.</span>';
       sheetBackup(record);
     })["catch"](function () {
+      wiseButtonBusy($("w-submit"), false);
       $("w-sync").textContent = "저장 실패";
       $("w-msg").innerHTML = '<span class="warn">인터넷이 불안정해요. 쓴 내용은 이 기기에 남아 있어요. 잠시 뒤 다시 제출해 주세요.</span>';
     });
@@ -903,9 +1020,13 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
   function teacherMake() {
     var code = makeCode();
     var pw = onlyDigits($("w-pw").value, 4) || "0000";
+    wiseBusy(true, "방을 만드는 중");
     dbPut(code + "/meta", { app: APP, pw: pw, at: Date.now(), locked: false })
-      .then(function () { teacherOpen(code, pw); })
-      ["catch"](function () { alert("방을 만들지 못했어요. 인터넷을 확인해 주세요."); });
+      .then(function () { wiseBusy(false); teacherOpen(code, pw); })
+      ["catch"](function () {
+        wiseBusy(false);
+        alert("방을 만들지 못했어요. 인터넷을 확인해 주세요.");
+      });
   }
 
   function teacherOpen(code, pw) {
@@ -914,6 +1035,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     $("t-pw").textContent = "비밀번호 " + (pw || "-") + " · 이 화면을 닫아도 방은 사라지지 않아요.";
     $("t-room").className = "";
     $("t-board").className = "card";
+    $("t-summary").innerHTML = wiseSpinner("제출을 불러오는 중이에요", true) + wiseSkeleton(3);
     teacherRefresh();
     if (timer) { clearInterval(timer); }
     timer = setInterval(teacherRefresh, 3000);
