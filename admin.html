@@ -140,7 +140,7 @@ font-size:14px;margin-top:12px}
   var CODE = "wise2026";
   var DB = "https://remind-c2610-default-rtdb.firebaseio.com";
   var KEY = "wise_admin_rooms";
-  var SHEET = "https://script.google.com/macros/s/AKfycbyIqxbv5JObUl2eN7iSZ-HDcDcHtaKxHlEpuNfkfPQMmJUKrwIMnlUsqKH20OOeOs4/exec";
+  var SHEET = "https://script.google.com/macros/s/AKfycbzawwJFwOtjGU8VNx2KLAbfYSMaMAENueB6uWEVcmod3EEA3CuzXO7_oXHQHHW20x4/exec";
   var SKILLS = [
     { name: "주체성", items: [1, 6] },
     { name: "비판적 사고", items: [2, 5] },
@@ -234,6 +234,16 @@ font-size:14px;margin-top:12px}
     });
   };
 
+  /* 시트가 돌려주는 시각은 모양이 여러 가지다. 사람이 읽는 모양으로 맞춘다. */
+  function when(v) {
+    if (!v) { return "-"; }
+    var d = new Date(v);
+    if (isNaN(d.getTime())) { return String(v).slice(0, 16); }
+    function two(n) { return (n < 10 ? "0" : "") + n; }
+    return d.getFullYear() + "-" + two(d.getMonth() + 1) + "-" + two(d.getDate()) +
+      " " + two(d.getHours()) + ":" + two(d.getMinutes());
+  }
+
   function paintSheetRooms() {
     if (!sheetRooms.length) {
       $("sheetrooms").innerHTML = '<p class="muted">시트에 방 기록이 아직 없습니다. 교사가 방을 만들면 쌓입니다.</p>';
@@ -243,7 +253,7 @@ font-size:14px;margin-top:12px}
     for (var i = 0; i < sheetRooms.length; i++) {
       var r = sheetRooms[i];
       h += "<tr><td>" + esc(r.lesson || r.app) + "</td><td>" + esc(r.room) + "</td><td>" +
-        esc(r.tag || "") + "</td><td>" + esc(String(r.at || "").slice(0, 16)) + "</td></tr>";
+        esc(r.tag || "") + "</td><td>" + esc(when(r.at)) + "</td></tr>";
     }
     $("sheetrooms").innerHTML = h + "</table>";
   }
