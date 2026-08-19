@@ -167,8 +167,19 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       <input id="w-nick" maxlength="12" placeholder="이름 말고 별명을 써요">
     </div>
   </div>
-  <label for="w-group">모둠 (없으면 비워 둬요)</label>
-  <input id="w-group" maxlength="10" placeholder="예: 3모둠">
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div>
+      <label for="w-code">나만 아는 숫자 4자리</label>
+      <input id="w-code" inputmode="numeric" maxlength="4" placeholder="예: 0412">
+    </div>
+    <div>
+      <label for="w-group">모둠 (없으면 비워 둬요)</label>
+      <input id="w-group" maxlength="10" placeholder="예: 3모둠">
+    </div>
+  </div>
+  <p class="muted" style="margin-top:6px">이 숫자는 비밀번호가 아니에요.
+    사전 설문과 사후 설문을 이어 보는 데만 써요. 열두 시간 뒤에도 같은 숫자를 써 주세요.
+    잊어버려도 활동은 그대로 할 수 있어요.</p>
   <div class="row" style="margin-top:14px">
     <button id="w-enter">입장하기</button>
     <button id="w-solo" class="ghost">둘러보기</button>
@@ -271,7 +282,8 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
   var COPYRIGHT_LINE = "2026년 티처스랩 5기 교사연구회 A.N.D · CC BY-NC-SA";
 
   var $ = function (id) { return document.getElementById(id); };
-  var me = { room: "", pw: "", nick: "", group: "", solo: false };
+  var me = { room: "", pw: "", nick: "", group: "", code: "", solo: false };
+  var CODE_KEY = "wise_student_code";
   var timer = null;
   var draftTimer = null;
 
@@ -307,6 +319,18 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
         body: JSON.stringify({ rows: q })
       }).then(function () {
         localStorage.setItem(QUEUE_KEY, "[]");
+      })["catch"](function () {});
+    } catch (e) {}
+  }
+
+  /* 방을 만들었다는 것만 시트에 알린다. 학생 응답은 보내지 않는다. */
+  function sheetRoom(room) {
+    try {
+      if (SHEET_ENDPOINT.indexOf("http") !== 0) { return; }
+      fetch(SHEET_ENDPOINT, {
+        method: "POST", mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ rooms: [{ app: APP, room: room, at: Date.now() }] })
       })["catch"](function () {});
     } catch (e) {}
   }
@@ -1442,11 +1466,16 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     var room = onlyDigits($("w-room").value, 6);
     var nick = $("w-nick").value.trim();
     var group = $("w-group").value.trim();
+    var code = onlyDigits($("w-code").value, 4);
+    if (code) {
+      try { localStorage.setItem(CODE_KEY, code); } catch (e) {}
+    }
 
     if (!nick) { $("w-gate-msg").textContent = "닉네임을 써 주세요."; return; }
     if (!solo && room.length !== 6) { $("w-gate-msg").textContent = "방 번호 6자리를 정확히 써 주세요."; return; }
 
-    me = { room: solo ? "solo" : room, pw: "", nick: nick, group: group, solo: !!solo };
+    me = { room: solo ? "solo" : room, pw: "", nick: nick, group: group,
+      code: code, solo: !!solo };
     $("w-who").textContent = me.nick + (me.group ? " · " + me.group : "") +
       (me.solo ? " · 혼자 체험" : " · " + me.room);
     $("activity").innerHTML = activityHtml();
@@ -1484,7 +1513,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     }
 
     var record = {
-      nick: me.nick, group: me.group, app: APP,
+      nick: me.nick, group: me.group, code: me.code, app: APP,
       room: me.room, at: Date.now(), payload: payload
     };
 
@@ -1509,7 +1538,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     var pw = onlyDigits($("w-pw").value, 4) || "0000";
     wiseBusy(true, "방을 만드는 중");
     dbPut(code + "/meta", { app: APP, pw: pw, at: Date.now(), locked: false })
-      .then(function () { wiseBusy(false); teacherOpen(code, pw); })
+      .then(function () { wiseBusy(false); sheetRoom(code); teacherOpen(code, pw); })
       ["catch"](function () {
         wiseBusy(false);
         alert("방을 만들지 못했어요. 인터넷을 확인해 주세요.");
@@ -1649,6 +1678,11 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
   };
 
   /* 상단바는 어느 화면에서나 계속 보인다. 링크는 새 창으로 열어 삽입 화면을 가두지 않는다. */
+  try {
+    var savedCode = localStorage.getItem(CODE_KEY);
+    if (savedCode && $("w-code")) { $("w-code").value = savedCode; }
+  } catch (e) {}
+
   $("w-restart").onclick = function () {
     if (timer) { clearInterval(timer); }
     if (draftTimer) { clearInterval(draftTimer); }

@@ -65,6 +65,18 @@ font-size:14px;margin-top:12px}
 
 <section id="panel" class="hide">
   <section class="card">
+    <h2>0. 전체 학급 불러오기</h2>
+    <p class="muted">교사가 방을 만들면 구글 시트 <b>방목록</b> 탭에 쌓입니다.
+      여기서 전체 학급을 한 번에 불러옵니다.</p>
+    <div class="row">
+      <button class="go" id="pull">시트에서 전체 학급 불러오기</button>
+      <button class="go ghost" id="pull-all">불러온 학급 자료 모두 읽기</button>
+    </div>
+    <p class="muted" id="pull-msg" style="margin-top:10px"></p>
+    <div id="sheetrooms" style="margin-top:12px"></div>
+  </section>
+
+  <section class="card">
     <h2>1. 볼 방 등록하기</h2>
     <p class="muted">교사가 만든 방 번호를 넣으면 이 브라우저에만 저장됩니다.
       방 번호를 모르면 아무 자료도 읽히지 않습니다.</p>
@@ -86,14 +98,28 @@ font-size:14px;margin-top:12px}
   </section>
 
   <section class="card">
+    <h2>1-2. 사전·사후 한눈에 보기 (시트 집계)</h2>
+    <p class="muted">시트에 쌓인 전체 응답으로 계산합니다. 학생 코드가 같은 응답끼리 이어
+      개인 변화량도 함께 냅니다. 개인 응답은 보여 주지 않습니다.</p>
+    <div id="dash"><p class="muted">위에서 불러오기를 누르세요.</p></div>
+  </section>
+
+  <section class="card">
     <h2>2. 사전·사후 설문</h2>
     <p class="muted">문항별 평균과 변화량입니다. 개인 응답은 보여 주지 않습니다.</p>
     <div id="survey"><p class="muted">방을 등록하고 불러오기를 누르세요.</p></div>
   </section>
 
   <section class="card">
+    <h2>2-2. 휴먼스킬 영역별 변화</h2>
+    <p class="muted">문항을 다섯 영역으로 묶어 사전과 사후를 견줍니다.</p>
+    <div id="skills"><p class="muted">설문 방을 등록하고 불러오면 나옵니다.</p></div>
+  </section>
+
+  <section class="card">
     <h2>3. 차시별 참여</h2>
     <div id="apps"><p class="muted">불러오면 차시마다 제출 수가 나옵니다.</p></div>
+    <div id="counts" style="margin-top:12px"></div>
   </section>
 
   <section class="card">
@@ -114,6 +140,14 @@ font-size:14px;margin-top:12px}
   var CODE = "wise2026";
   var DB = "https://remind-c2610-default-rtdb.firebaseio.com";
   var KEY = "wise_admin_rooms";
+  var SHEET = "https://script.google.com/macros/s/AKfycbyIqxbv5JObUl2eN7iSZ-HDcDcHtaKxHlEpuNfkfPQMmJUKrwIMnlUsqKH20OOeOs4/exec";
+  var SKILLS = [
+    { name: "주체성", items: [1, 6] },
+    { name: "비판적 사고", items: [2, 5] },
+    { name: "윤리적 사고", items: [3] },
+    { name: "성찰적 사고", items: [4, 8] },
+    { name: "사회·관계적 사고", items: [7] }
+  ];
   var SURVEY_ITEMS = ["AI에게 과제를 시켜도 된다고 생각한다.", "AI의 답이 틀릴 수 있다고 안다.", "내가 AI에 입력해도 되는 정보와 입력하면 안 되는 정보를 구별할 수 있다.", "AI가 만든 결과를 그대로 쓰지 않고 내 말로 다시 정리해 본 적이 있다.", "AI의 답을 무조건 믿지 않고 다른 자료와 비교해 보는 편이다.", "내 생각을 먼저 정리한 다음 AI를 쓰는 편이다.", "AI를 쓰는 일이 친구·선생님과 이야기하는 시간을 줄이지 않도록 조절한다.", "AI를 쓰고 나서 무엇이 좋았고 무엇이 아쉬웠는지 돌아본다."];
   var APPS = [{"slug": "survey", "label": "공통 설문"}, {"slug": "data-lab", "label": "1차시"}, {"slug": "verify-lab", "label": "2차시"}, {"slug": "bias-gallery", "label": "3차시"}, {"slug": "info-sorter", "label": "4차시"}, {"slug": "helper-or-doer", "label": "5차시"}, {"slug": "signal-judges", "label": "6차시"}, {"slug": "class-pledge", "label": "7차시"}, {"slug": "pledge-board", "label": "8차시"}, {"slug": "three-step-writing", "label": "9차시"}, {"slug": "habit-check", "label": "10차시"}, {"slug": "good-project-board", "label": "11차시"}, {"slug": "reflect-share", "label": "12차시"}];
   var rows = [];
@@ -161,6 +195,139 @@ font-size:14px;margin-top:12px}
         esc(rows[i].tag) + "</td><td>" + (data[key] ? data[key].length + "건" : "-") + "</td></tr>";
     }
     $("rooms").innerHTML = h + "</table>";
+  }
+
+  /* 시트에서 읽어 온다. fetch 가 막히면 JSONP 로 한 번 더 시도한다. */
+  function askSheet(what, done, fail) {
+    if (SHEET.indexOf("http") !== 0) { fail("시트 주소가 아직 없습니다."); return; }
+    var url = SHEET + "?what=" + what;
+    fetch(url)
+      .then(function (r) { return r.json(); })
+      .then(function (obj) { done(obj); })
+      ["catch"](function () {
+        var cbName = "wiseCb" + Math.floor(Math.random() * 100000);
+        var timer = setTimeout(function () { fail("시트를 읽지 못했습니다."); }, 12000);
+        window[cbName] = function (obj) {
+          clearTimeout(timer);
+          done(obj);
+          try { delete window[cbName]; } catch (e) {}
+        };
+        var sc = document.createElement("script");
+        sc.src = url + "&callback=" + cbName;
+        sc.onerror = function () { clearTimeout(timer); fail("시트를 읽지 못했습니다."); };
+        document.body.appendChild(sc);
+      });
+  }
+
+  var sheetRooms = [];
+
+  $("pull").onclick = function () {
+    $("pull-msg").textContent = "불러오는 중입니다...";
+    askSheet("rooms", function (obj) {
+      sheetRooms = (obj && obj.rooms) || [];
+      $("pull-msg").textContent = "학급 " + sheetRooms.length + "개를 불러왔습니다.";
+      paintSheetRooms();
+      loadDash();
+    }, function (msg) {
+      $("pull-msg").innerHTML = esc(msg) +
+        " Apps Script 를 누구나 접근으로 배포했는지 확인해 주세요.";
+    });
+  };
+
+  function paintSheetRooms() {
+    if (!sheetRooms.length) {
+      $("sheetrooms").innerHTML = '<p class="muted">시트에 방 기록이 아직 없습니다. 교사가 방을 만들면 쌓입니다.</p>';
+      return;
+    }
+    var h = '<table><tr><th>차시</th><th>방 번호</th><th>학급 이름표</th><th>만든 때</th></tr>';
+    for (var i = 0; i < sheetRooms.length; i++) {
+      var r = sheetRooms[i];
+      h += "<tr><td>" + esc(r.lesson || r.app) + "</td><td>" + esc(r.room) + "</td><td>" +
+        esc(r.tag || "") + "</td><td>" + esc(String(r.at || "").slice(0, 16)) + "</td></tr>";
+    }
+    $("sheetrooms").innerHTML = h + "</table>";
+  }
+
+  $("pull-all").onclick = function () {
+    if (!sheetRooms.length) { alert("먼저 전체 학급을 불러와 주세요."); return; }
+    for (var i = 0; i < sheetRooms.length; i++) {
+      var r = sheetRooms[i], found = false;
+      for (var k = 0; k < rows.length; k++) {
+        if (rows[k].app === r.app && rows[k].room === r.room) { found = true; break; }
+      }
+      if (found) { continue; }
+      rows.push({ app: r.app, label: r.lesson || r.app, room: r.room, tag: r.tag || "" });
+    }
+    save();
+    paintRooms();
+    $("load").onclick();
+  };
+
+  function loadDash() {
+    askSheet("survey", function (obj) { paintDash(obj); },
+      function (msg) { $("dash").innerHTML = '<p class="muted">' + esc(msg) + '</p>'; });
+    askSheet("counts", function (obj) { paintCounts(obj); }, function () {});
+  }
+
+  function paintDash(d) {
+    if (!d || !d.items) { $("dash").innerHTML = '<p class="muted">아직 자료가 없습니다.</p>'; return; }
+    var h = '<p class="muted">사전 ' + (d.preCount || 0) + '명 · 사후 ' + (d.postCount || 0) +
+      '명 · 학생 코드로 이어진 사람 ' + (d.matched || 0) + '명</p>';
+    h += '<table><tr><th>문항</th><th>사전</th><th>사후</th><th>변화</th></tr>';
+    for (var i = 0; i < d.items.length; i++) {
+      var it = d.items[i];
+      var diff = (it.pre !== "" && it.post !== "") ? (Math.round((it.post - it.pre) * 100) / 100) : "-";
+      h += "<tr><td>" + (i + 1) + "번</td><td>" + (it.pre === "" ? "-" : it.pre) + "</td><td>" +
+        (it.post === "" ? "-" : it.post) + "</td><td>" + diff + "</td></tr>";
+    }
+    h += "</table>";
+    if (d.matched) {
+      h += '<p style="margin-top:12px">개인 변화 : 올라감 <b>' + d.up + '명</b> · 그대로 ' +
+        d.same + '명 · 내려감 ' + d.down + '명 · 평균 변화량 ' + d.meanDiff + '</p>';
+      h += '<p class="muted">평균만 보면 오른 사람과 내린 사람이 상쇄됩니다. 세 갈래를 함께 봅니다.</p>';
+    }
+    $("dash").innerHTML = h;
+  }
+
+  function paintCounts(d) {
+    if (!d || !d.counts || !d.counts.length) { $("counts").innerHTML = ""; return; }
+    var byLesson = {};
+    for (var i = 0; i < d.counts.length; i++) {
+      var c = d.counts[i];
+      if (!byLesson[c.lesson]) { byLesson[c.lesson] = { people: 0, rooms: 0 }; }
+      byLesson[c.lesson].people += c.people;
+      byLesson[c.lesson].rooms += 1;
+    }
+    var h = '<h3>시트 기준 차시별 제출</h3><table><tr><th>차시</th><th>학급 수</th><th>제출한 사람</th></tr>';
+    var keys = [];
+    for (var k in byLesson) { if (byLesson.hasOwnProperty(k)) { keys.push(k); } }
+    keys.sort();
+    for (var j = 0; j < keys.length; j++) {
+      h += "<tr><td>" + esc(keys[j]) + "</td><td>" + byLesson[keys[j]].rooms + "개</td><td>" +
+        byLesson[keys[j]].people + "명</td></tr>";
+    }
+    $("counts").innerHTML = h + "</table>";
+  }
+
+  function paintSkills(pre, post) {
+    function avgOf(list, nums) {
+      var s = 0, n = 0;
+      for (var i = 0; i < nums.length; i++) {
+        var arr = list[nums[i] - 1] || [];
+        for (var k = 0; k < arr.length; k++) { s += arr[k]; n += 1; }
+      }
+      return n ? s / n : null;
+    }
+    var h = '<table><tr><th>영역</th><th>사전</th><th>사후</th><th>변화</th><th>사후 수준</th></tr>';
+    for (var i = 0; i < SKILLS.length; i++) {
+      var a = avgOf(pre, SKILLS[i].items), b = avgOf(post, SKILLS[i].items);
+      var d = (a !== null && b !== null) ? (b - a).toFixed(2) : "-";
+      var w = b !== null ? Math.round(b * 20) : (a !== null ? Math.round(a * 20) : 0);
+      h += "<tr><td>" + esc(SKILLS[i].name) + "</td><td>" + (a === null ? "-" : a.toFixed(2)) +
+        "</td><td>" + (b === null ? "-" : b.toFixed(2)) + "</td><td>" + d +
+        '</td><td><div class="bar"><i style="width:' + w + '%"></i></div></td></tr>';
+    }
+    $("skills").innerHTML = h + "</table>";
   }
 
   $("add").onclick = function () {
@@ -258,6 +425,7 @@ font-size:14px;margin-top:12px}
         "</td><td>" + d + '</td><td><div class="bar"><i style="width:' + pct + '%"></i></div></td></tr>';
     }
     $("survey").innerHTML = h + "</table>";
+    paintSkills(pre, post);
   }
 
   function paintApps() {
