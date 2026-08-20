@@ -45,7 +45,7 @@ cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 border:2.5px solid var(--line);color:var(--ink);font-size:15px;font-weight:900}
 #wise-app .tag{display:inline-block;padding:3px 10px;border-radius:999px;background:#fff;
 border:2px solid var(--line);color:var(--ink2);font-size:14px;font-weight:800;margin-right:4px}
-#wise-app .hide{display:none}
+#wise-app .hide{display:none !important}
 #wise-app .bucket{border:3px dashed var(--line);border-radius:14px;padding:12px;min-height:120px;
 background:#fff}
 #wise-app .bucket h3{font-size:18px;margin-bottom:8px}
@@ -517,7 +517,9 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       '<button type="button" id="cele-close">' + esc(buttonText || "닫기") + '</button></div></div>';
     $("w-cele").innerHTML = h;
     $("w-cele").className = "cele";
-    $("cele-close").onclick = function () { $("w-cele").className = "cele hide"; };
+    var celeClose = function () { $("w-cele").className = "hide"; $("w-cele").innerHTML = ""; };
+    $("cele-close").onclick = celeClose;
+    $("w-cele").onclick = function (ev) { if (ev.target === $("w-cele")) { celeClose(); } };
   }
 
   /* 결과 카드를 그림으로 만들어 내려받는다. 교실에서 인쇄해 붙일 수 있다. */
