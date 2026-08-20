@@ -1338,7 +1338,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     }
   }
 
-  function noteFor(id) {
+  function hintFor(id) {
     if (id === "week") { return "일곱 칸을 누르고, 이번 주에 해 본 장면을 골라요."; }
     if (id === "scale") { return "고른 장면을 보조와 대행으로 갈라요. 옳고 그름이 아니에요."; }
     if (id === "ask") { return "또또에게 부탁해 봐요. 못 한다고 답하는 것이 오늘의 답이에요."; }
@@ -1354,7 +1354,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     if (id === "vow") { paintVow(); }
     if (id === "card") { paintMine(); }
     if (id === "hub") { paintHub(); }
-    wiseNote(noteFor(id));
+    wiseNote(hintFor(id));
   }
 
   function activityInit(saved) {
@@ -1896,6 +1896,26 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     var savedCode = localStorage.getItem(CODE_KEY);
     if (savedCode && $("w-code")) { $("w-code").value = savedCode; }
   } catch (e) {}
+
+  /* 미리보기 모드. 주소에 ?shot=화면이름 을 붙이면 둘러보기로 들어가 그 화면을 연다.
+     교사 안내 자료의 화면 캡처를 자동으로 뜨기 위한 것이다. fill=1 이면 예시값을 채운다. */
+  function shotMode() {
+    var q = "";
+    try { q = window.location && window.location.search ? window.location.search : ""; } catch (e) { return; }
+    if (q.indexOf("shot=") < 0) { return; }
+    var val = q.split("shot=")[1].split("&")[0];
+    try { val = decodeURIComponent(val); } catch (e) {}
+    $("w-nick").value = "미리보기";
+    enter(true);
+    if (q.indexOf("fill=1") >= 0 && typeof activityAutofill === "function") {
+      try { activityAutofill(); } catch (e) {}
+    }
+    if (val && val !== "stage") {
+      try { wiseGo(val); } catch (e) {}
+    }
+  }
+
+  try { shotMode(); } catch (e) {}
 
   $("w-restart").onclick = function () {
     if (timer) { clearInterval(timer); }

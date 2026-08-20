@@ -322,3 +322,68 @@ footer strong{color:var(--ink)}
 }
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* 웹앱 사용 안내 (build/make_guide.py) */
+.crumb{font-size:15px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pill.ghost{background:#fff;color:var(--ink2)}
+.steps3{margin:10px 0 0 20px;line-height:1.9}
+.steps3>li{margin:10px 0}
+.steps3 .btn{display:inline-block;margin-left:6px;padding:6px 14px;border:2.5px solid var(--line);
+border-radius:999px;background:var(--green);color:#111;font-weight:900;font-size:15px;text-decoration:none}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:12px}
+.shots figure{margin:0;border:2.5px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
+box-shadow:4px 4px 0 var(--line)}
+.shots img{display:block;width:100%;height:220px;object-fit:cover;object-position:top center}
+.shots figcaption{padding:8px 12px;font-weight:800;font-size:15px;border-top:2.5px solid var(--line)}
+.flowrow{display:grid;grid-template-columns:180px 1fr;gap:12px;padding:12px 0;border-top:2px dashed var(--line)}
+.flowrow:first-child{border-top:0}
+.flowhead{font-size:15px;color:var(--muted);font-weight:800;line-height:1.6}
+.flowhead b{color:var(--ink);font-size:17px}
+.flowq{margin:0 0 0 18px;line-height:1.8}
+.dl{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.dl a{padding:10px 16px;border:2.5px solid var(--line);border-radius:999px;background:#fff;
+font-weight:800;text-decoration:none;color:var(--ink)}
+.dl a:hover{background:var(--sun)}
+.embed-slot{margin-top:12px;padding:14px;border:2px dashed var(--line);border-radius:14px;background:var(--cream-d)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:16px}
+.gcard{display:block;border:2.5px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;
+text-decoration:none;color:var(--ink);box-shadow:5px 5px 0 var(--line)}
+.gcard:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--line)}
+.gcard img{display:block;width:100%;height:150px;object-fit:cover;object-position:top center;
+border-bottom:2.5px solid var(--line)}
+.gcard .gno{display:block;padding:10px 14px 0;font-size:14px;font-weight:900;color:var(--blue)}
+.gcard b{display:block;padding:2px 14px;font-size:19px}
+.gcard small{display:block;padding:0 14px 14px;color:var(--muted);font-weight:700}
+.navrow{display:flex;justify-content:space-between;gap:12px;margin-top:20px;font-weight:800}
+@media (max-width:640px){.flowrow{grid-template-columns:1fr}.shots img{height:180px}}
+
+.reflist{list-style:none;margin:10px 0 0;padding:0}
+.refitem{border:2.5px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0;background:#fff}
+.refitem p{margin:6px 0 0;color:var(--ink2)}
+.tagk{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--sun);
+border:2px solid var(--line);font-size:14px;font-weight:900;margin-right:6px}
+.embed{position:relative;width:100%;padding-top:56.25%;margin-top:12px;border:2.5px solid var(--line);
+border-radius:14px;overflow:hidden;background:var(--cream-d)}
+.embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* 참고자료 모음 (build/make_refs.py) */
+.refgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:14px}
+.refcard{border:2.5px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;
+box-shadow:5px 5px 0 var(--line);display:flex;flex-direction:column}
+.refpic{display:block;margin:0;border-bottom:2.5px solid var(--line);background:var(--cream-d)}
+.refpic img{display:block;width:100%;height:170px;object-fit:cover;object-position:top center}
+.refpic figcaption{padding:6px 12px;font-size:13px;font-weight:700;color:var(--muted);
+background:var(--cream-d);border-top:2px solid var(--line)}
+.refbody{padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.reforg{margin:0;font-size:14px;font-weight:900;color:var(--blue)}
+.refcard h3{margin:0;font-size:20px;line-height:1.35}
+.refcard h3 a{text-decoration:none;color:var(--ink)}
+.refcard h3 a:hover{background:var(--sun)}
+.refcard p{margin:0;font-size:16px;line-height:1.7}
+.refurl{font-size:13px;color:var(--muted);word-break:break-all}
+.usedin{font-size:15px}
+.lchip{display:inline-block;margin:2px 4px 2px 0;padding:3px 10px;border:2px solid var(--line);
+border-radius:999px;background:var(--sun);font-weight:800;font-size:14px;text-decoration:none;color:var(--ink)}
+.reftable td{vertical-align:top}
+.reftable a{color:var(--ink)}

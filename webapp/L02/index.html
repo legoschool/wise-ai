@@ -1657,6 +1657,26 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     if (savedCode && $("w-code")) { $("w-code").value = savedCode; }
   } catch (e) {}
 
+  /* 미리보기 모드. 주소에 ?shot=화면이름 을 붙이면 둘러보기로 들어가 그 화면을 연다.
+     교사 안내 자료의 화면 캡처를 자동으로 뜨기 위한 것이다. fill=1 이면 예시값을 채운다. */
+  function shotMode() {
+    var q = "";
+    try { q = window.location && window.location.search ? window.location.search : ""; } catch (e) { return; }
+    if (q.indexOf("shot=") < 0) { return; }
+    var val = q.split("shot=")[1].split("&")[0];
+    try { val = decodeURIComponent(val); } catch (e) {}
+    $("w-nick").value = "미리보기";
+    enter(true);
+    if (q.indexOf("fill=1") >= 0 && typeof activityAutofill === "function") {
+      try { activityAutofill(); } catch (e) {}
+    }
+    if (val && val !== "stage") {
+      try { wiseGo(val); } catch (e) {}
+    }
+  }
+
+  try { shotMode(); } catch (e) {}
+
   $("w-restart").onclick = function () {
     if (timer) { clearInterval(timer); }
     if (draftTimer) { clearInterval(draftTimer); }
