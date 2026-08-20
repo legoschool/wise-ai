@@ -9,7 +9,7 @@
 --accent:#d97706;--accent-soft:#fffbeb;
 --shadow:5px 5px 0 var(--line);
 font-family:"Pretendard","Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",system-ui,sans-serif;
-color:var(--ink2);background:var(--bg);line-height:1.7;font-size:19px;
+color:var(--ink2);background:var(--bg);line-height:1.75;font-size:21px;
 padding:18px;max-width:1040px;margin:0 auto;-webkit-text-size-adjust:100%}
 #wise-app h1,#wise-app h2,#wise-app h3{margin:0;color:var(--ink);font-weight:900;line-height:1.28;
 letter-spacing:-.028em}
@@ -18,20 +18,20 @@ padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow);position:relative;
 #wise-app .hd::after{content:"";position:absolute;right:-40px;top:-60px;width:200px;height:200px;
 border-radius:50%;background:rgba(255,255,255,.12)}
 #wise-app .hd h1{font-size:28px;color:#fff}
-#wise-app .hd p{margin:6px 0 0;font-size:17px;opacity:.95;font-weight:700}
+#wise-app .hd p{margin:6px 0 0;font-size:19px;opacity:.95;font-weight:700}
 #wise-app .card{background:var(--paper);border:3px solid var(--line);border-radius:16px;padding:20px;
 margin-bottom:16px;box-shadow:var(--shadow)}
-#wise-app .card h2{font-size:24px;margin-bottom:10px}
-#wise-app .card h3{font-size:20px}
+#wise-app .card h2{font-size:27px;margin-bottom:10px}
+#wise-app .card h3{font-size:22px}
 #wise-app .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-#wise-app label{display:block;font-size:17px;color:var(--muted);margin:12px 0 4px;font-weight:800}
+#wise-app label{display:block;font-size:19px;color:var(--muted);margin:12px 0 4px;font-weight:800}
 #wise-app input,#wise-app textarea,#wise-app select{
 width:100%;font:inherit;font-size:20px;padding:14px 15px;border:2.5px solid var(--line);
 border-radius:12px;background:#fff;color:var(--ink)}
 #wise-app input:focus,#wise-app textarea:focus,#wise-app select:focus{
 outline:3px solid var(--sun);outline-offset:2px}
 #wise-app textarea{min-height:104px;resize:vertical}
-#wise-app button{font:inherit;font-size:19px;font-weight:900;min-height:52px;padding:13px 20px;
+#wise-app button{font:inherit;font-size:21px;font-weight:900;min-height:58px;padding:13px 20px;
 border-radius:12px;border:2.5px solid var(--line);background:var(--green);color:var(--ink);
 cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 #wise-app button:hover{background:var(--sun)}
@@ -40,7 +40,7 @@ cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 #wise-app button.plain{background:#fff;color:var(--muted);box-shadow:none}
 #wise-app button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 #wise-app .code{font-size:38px;font-weight:900;letter-spacing:.16em;color:var(--accent)}
-#wise-app .muted{color:var(--muted);font-size:17px}
+#wise-app .muted{color:var(--muted);font-size:19px}
 #wise-app .pill{display:inline-block;padding:5px 13px;border-radius:999px;background:var(--sun);
 border:2.5px solid var(--line);color:var(--ink);font-size:15px;font-weight:900}
 #wise-app .tag{display:inline-block;padding:3px 10px;border-radius:999px;background:#fff;
@@ -51,7 +51,7 @@ background:#fff}
 #wise-app .bucket h3{font-size:18px;margin-bottom:8px}
 #wise-app .grid{display:grid;gap:12px}
 #wise-app .g2{display:grid;gap:14px;grid-template-columns:1fr 1fr}
-#wise-app .chip{display:block;width:100%;text-align:left;padding:15px 17px;margin-bottom:10px;font-size:19px;
+#wise-app .chip{display:block;width:100%;text-align:left;padding:15px 17px;margin-bottom:10px;font-size:21px;
 border:2.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-weight:700;
 min-height:52px;box-shadow:3px 3px 0 var(--line)}
 #wise-app .chip:hover{background:var(--bg-d)}
@@ -105,7 +105,7 @@ font-weight:900;color:var(--ink)}
 border:2.5px solid var(--line);border-radius:14px;padding:11px 15px;margin-bottom:14px;
 font-weight:800;font-size:17px;color:var(--ink);box-shadow:3px 3px 0 var(--line)}
 #wise-app .hud .grow{flex:1;min-width:120px}
-#wise-app .tile{border:3px solid var(--line);border-radius:16px;padding:16px;background:#fff;
+#wise-app .tile{font-size:22px;border:3px solid var(--line);border-radius:16px;padding:16px;background:#fff;
 text-align:left;font-weight:800;font-size:20px;min-height:118px;display:flex;flex-direction:column;gap:6px;
 box-shadow:var(--shadow);color:var(--ink)}
 #wise-app .tile small{font-weight:700;color:var(--muted);font-size:16px}
@@ -133,7 +133,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
 #wise-app #present .card{border-radius:20px}
 #wise-app #present table{font-size:23px}
 #wise-app #present .big{font-size:46px}
-@media (max-width:640px){#wise-app{padding:10px;font-size:18px}#wise-app .hd h1{font-size:23px}
+@media (max-width:640px){#wise-app{padding:10px;font-size:19px}#wise-app .hd h1{font-size:32px}
 #wise-app .g2{grid-template-columns:1fr}#wise-app .intro svg{height:126px}
 #wise-app .ws-scene{height:120px}}
 @media (prefers-reduced-motion:reduce){#wise-app *{transition:none!important;animation:none!important}}

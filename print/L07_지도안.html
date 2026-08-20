@@ -83,6 +83,29 @@ gap:8px;flex-wrap:wrap;background:var(--cream-d);padding:10px 0}
 border-radius:10px;background:#fff;padding:9px 14px;cursor:pointer;text-decoration:none;color:var(--ink)}
 .toolbar a:hover,.toolbar button:hover{background:var(--sun)}
 
+/* 활동지는 학생이 본다. 초등 5·6학년이 읽을 크기로 키운다. */
+.sheet.ws{font-size:16.5px;line-height:1.85}
+.ws h1{font-size:32px}
+.ws .band{padding:18px 20px;margin-top:18px}
+.ws .band h3{font-size:21px;gap:10px}
+.ws .band h3 span.n{width:34px;height:34px;font-size:19px}
+.ws .band p{font-size:16.5px;line-height:1.8}
+.ws .lead{font-size:18px;font-weight:800;color:var(--ink);margin:2px 0 10px}
+.ws .sample{font-size:16px;background:#FFFBEA;border:2.5px solid var(--line);border-radius:12px;
+padding:10px 12px;margin:10px 0}
+.ws .sample span{display:inline-block;background:var(--sun);border:2px solid var(--line);
+border-radius:999px;padding:2px 10px;font-size:14px;font-weight:900;margin-right:8px}
+.ws .checks label{font-size:17px;gap:10px;align-items:center}
+.ws .checks i{width:22px;height:22px;border-radius:6px}
+.ws .namebar div{font-size:15px;padding:12px 12px}
+.ws .rule{margin:34px 0;border-bottom-width:2.5px}
+.ws .rule:first-of-type{margin-top:20px}
+.ws .boxes .b{font-size:15px;min-height:78px}
+.ws table{font-size:15px}
+.ws .appbox{padding:16px 18px}
+.ws .appbox p{font-size:14.5px}
+@media print{.sheet.ws{font-size:16px}.ws .band h3{font-size:20px}}
+
 .appbox{border:2px solid #111;border-radius:12px;padding:14px 16px;margin:12px 0;background:#FCFBF7}
 .appbox .row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .appbox img.qr{border:2px solid #111;border-radius:10px;background:#fff;padding:4px}
