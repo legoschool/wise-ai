@@ -65,14 +65,15 @@
 </section>
 
 <section class="card">
-  <h2>내려받기</h2>
+  <h2>수업 자료 열기</h2>
+  <p class="muted">지도안과 수업 슬라이드는 <b>화면에서 열어 PDF로 저장</b>합니다.
+    열린 쪽 위쪽의 <b>PDF로 저장 · 인쇄</b>를 누르면 됩니다.
+    활동지는 학급에 맞게 고쳐 쓸 수 있게 한글 파일도 함께 둡니다.</p>
   <div class="dl">
-    <a href="../files/WISE_L02_지도안.hwpx">지도안 한글</a>
-    <a href="../files/WISE_L02_활동지.hwpx">활동지 한글</a>
-    <a href="../files/WISE_L02_수업.pptx">수업 PPT</a>
-    <a href="../print/L02_지도안.html">지도안 인쇄용</a>
-    <a href="../print/L02_활동지.html">활동지 인쇄용</a>
+    <a href="../print/L02_지도안.html">지도안 보기 · PDF</a>
+    <a href="../print/L02_활동지.html">활동지 보기 · PDF</a>
     <a href="../deck/L02.html">수업 슬라이드</a>
+    <a href="../files/WISE_L02_활동지.hwpx">활동지 한글</a>
   </div>
 </section>
 
@@ -83,7 +84,7 @@
 
 </article>
 </main>
-<footer><div class="wrap"><p>2026년 G-DEAL A.N.D · CC BY-NC-SA</p></div></footer><style>
+<footer><div class="wrap"><p>2026년 G-DEAL A.N.D · CC BY-NC-SA</p><p><a href="../privacy.html">개인정보 처리방침</a></p></div></footer><style>
 /* 오른쪽 아래 동그란 아이콘 단추. 글자를 넣지 않는다.
    기성 사이트의 의견·상담 위젯이 모두 이 꼴이라 아이도 선생님도 무엇인지 바로 안다.
    글자는 옆에 뜨는 이름표(#wfb-tip)로 알려 준다. */
@@ -165,7 +166,8 @@ box-shadow:4px 4px 0 #111}
 color:#6F6A61;cursor:pointer;text-decoration:underline}
 .wfb-hide{display:none}
 .wfb-hi{margin-bottom:6px}
-.wfb-hi svg{width:54px;height:54px;display:block}
+.wfb-hi svg,.wfb-hi .wfb-img{width:54px;height:54px;display:block;border-radius:999px}
+#wfb-open .wfb-img{width:50px;height:50px;border-radius:999px;display:block}
 .wfb-done{background:#fff;border:2.5px solid #111;border-radius:14px;padding:16px;margin-top:14px}
 @media (max-width:640px){#wfb-open{right:12px;bottom:12px;padding:12px 16px;font-size:15px}}
 @media (prefers-reduced-motion:no-preference){
@@ -173,7 +175,7 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
 @keyframes wfb-in{from{transform:translateX(26px);opacity:.4}to{transform:none;opacity:1}}}
 </style>
 
-<button type="button" id="wfb-open" aria-label="의견 보내기"><svg viewBox="0 0 100 100" width="52" height="52" aria-hidden="true" focusable="false"><g transform="translate(50,52) scale(0.94) translate(-50,-54)"><path d="M12 56 q0 -44 38 -44 q38 0 38 44 q0 12 -6 18 h-64 q-6 -6 -6 -18 z" fill="#2A1F17"/><circle cx="14" cy="58" r="7" fill="#F7EFE0" stroke="#111111" stroke-width="4"/><circle cx="86" cy="58" r="7" fill="#F7EFE0" stroke="#111111" stroke-width="4"/><path d="M16 50 q0 -38 34 -38 q34 0 34 38 q0 34 -34 34 q-34 0 -34 -34 z" fill="#F7EFE0" stroke="#111111" stroke-width="5" stroke-linejoin="round"/><clipPath id="wz-face"><path d="M16 50 q0 -38 34 -38 q34 0 34 38 q0 34 -34 34 q-34 0 -34 -34 z"/></clipPath><g clip-path="url(#wz-face)"><path d="M10 46 q6 -40 40 -40 q36 0 40 40 q-10 -16 -30 -18 q-6 14 -22 16 q-16 2 -28 2 z" fill="#2A1F17"/><path d="M62 12 q20 8 24 30 q-8 -14 -22 -20 z" fill="#463526"/></g><path d="M16 50 q0 -38 34 -38 q34 0 34 38 q0 34 -34 34 q-34 0 -34 -34 z" fill="none" stroke="#111111" stroke-width="5" stroke-linejoin="round"/><path d="M30 45 q7 -4 14 0 M56 45 q7 -4 14 0" fill="none" stroke="#111111" stroke-width="4" stroke-linecap="round"/><ellipse cx="37.0" cy="59" rx="5.6" ry="6.4" fill="#111111"/><circle cx="38.9" cy="56.6" r="1.9" fill="#FFFFFF"/><ellipse cx="63.0" cy="59" rx="5.6" ry="6.4" fill="#111111"/><circle cx="64.9" cy="56.6" r="1.9" fill="#FFFFFF"/><circle cx="50" cy="66" r="1.8" fill="#111111" opacity="0.55"/><ellipse cx="27" cy="69" rx="6.5" ry="4.6" fill="#FFA48F" opacity="0.55"/><ellipse cx="73" cy="69" rx="6.5" ry="4.6" fill="#FFA48F" opacity="0.55"/><path d="M42 72 q8 9 16 0" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round"/></g></svg></button>
+<button type="button" id="wfb-open" aria-label="의견 보내기"><img src="../assets/mascot/wizi_icon.png" alt="" width="52" height="52" class="wfb-img"></button>
 <span id="wfb-tip" role="tooltip">의견 보내기</span>
 <div id="wfb-wrap" role="dialog" aria-modal="true" aria-label="함께 고치기">
 <div id="wfb-dim"></div>
@@ -186,7 +188,7 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
 <div class="wfb-in">
 
   <div id="wfb-s1">
-    <div class="wfb-hi"><svg viewBox="0 0 100 100" width="54" height="54" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="48" fill="#E9DCC6" stroke="#111111" stroke-width="4"/><g transform="translate(50,53) scale(0.80) translate(-50,-54)"><path d="M12 56 q0 -44 38 -44 q38 0 38 44 q0 12 -6 18 h-64 q-6 -6 -6 -18 z" fill="#2A1F17"/><circle cx="14" cy="58" r="7" fill="#F7EFE0" stroke="#111111" stroke-width="4"/><circle cx="86" cy="58" r="7" fill="#F7EFE0" stroke="#111111" stroke-width="4"/><path d="M16 50 q0 -38 34 -38 q34 0 34 38 q0 34 -34 34 q-34 0 -34 -34 z" fill="#F7EFE0" stroke="#111111" stroke-width="5" stroke-linejoin="round"/><clipPath id="wz-face"><path d="M16 50 q0 -38 34 -38 q34 0 34 38 q0 34 -34 34 q-34 0 -34 -34 z"/></clipPath><g clip-path="url(#wz-face)"><path d="M10 46 q6 -40 40 -40 q36 0 40 40 q-10 -16 -30 -18 q-6 14 -22 16 q-16 2 -28 2 z" fill="#2A1F17"/><path d="M62 12 q20 8 24 30 q-8 -14 -22 -20 z" fill="#463526"/></g><path d="M16 50 q0 -38 34 -38 q34 0 34 38 q0 34 -34 34 q-34 0 -34 -34 z" fill="none" stroke="#111111" stroke-width="5" stroke-linejoin="round"/><path d="M30 45 q7 -4 14 0 M56 45 q7 -4 14 0" fill="none" stroke="#111111" stroke-width="4" stroke-linecap="round"/><ellipse cx="37.0" cy="59" rx="5.6" ry="6.4" fill="#111111"/><circle cx="38.9" cy="56.6" r="1.9" fill="#FFFFFF"/><ellipse cx="63.0" cy="59" rx="5.6" ry="6.4" fill="#111111"/><circle cx="64.9" cy="56.6" r="1.9" fill="#FFFFFF"/><circle cx="50" cy="66" r="1.8" fill="#111111" opacity="0.55"/><ellipse cx="27" cy="69" rx="6.5" ry="4.6" fill="#FFA48F" opacity="0.55"/><ellipse cx="73" cy="69" rx="6.5" ry="4.6" fill="#FFA48F" opacity="0.55"/><path d="M42 72 q8 9 16 0" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round"/></g></svg></div>
+    <div class="wfb-hi"><img src="../assets/mascot/wizi_icon.png" alt="" width="54" height="54" class="wfb-img"></div>
     <h2>함께 만들어가요</h2>
     <p class="wfb-lede">보내 주신 것을 모아 다음 자료를 고칩니다.</p>
     <div class="wfb-row" id="wfb-who">

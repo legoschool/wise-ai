@@ -43,6 +43,20 @@ font-size:14px;margin-top:12px}
 .bar{height:16px;border-radius:8px;background:var(--cream-d);overflow:hidden;border:1.5px solid var(--line)}
 .bar>i{display:block;height:100%;background:var(--green)}
 .foot{color:var(--muted);font-size:12px;text-align:center;padding:20px}
+.tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:14px}
+.tile{border:2.5px solid var(--line);border-radius:14px;background:var(--cream);padding:12px 14px}
+.tile b{display:block;font-size:26px;line-height:1.2;color:var(--ink)}
+.tile span{font-size:13px;font-weight:700;color:var(--muted)}
+.chart{border:2.5px solid var(--line);border-radius:14px;background:#fff;padding:14px}
+.chart h3{font-size:16px;margin-bottom:8px}
+.chart .legend{display:flex;gap:14px;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.chart .legend i{display:inline-block;width:12px;height:12px;border:2px solid var(--line);
+border-radius:3px;margin-right:5px;vertical-align:-2px}
+.rep{border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff}
+.rep .top{display:flex;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-weight:700}
+.rep .top b{color:var(--ink)}
+.rep p{margin:6px 0 0;font-size:15px}
+.rep a{font-size:13px}
 </style>
 </head>
 <body>
@@ -78,6 +92,25 @@ font-size:14px;margin-top:12px}
     </div>
     <p class="muted" id="pull-msg" style="margin-top:10px"></p>
     <div id="sheetrooms" style="margin-top:12px"></div>
+  </section>
+
+  <section class="card">
+    <h2>한눈에 보기</h2>
+    <p class="muted">시트에 쌓인 것을 모아서 봅니다. 개인 응답은 나오지 않습니다.</p>
+    <div class="row" style="margin-top:10px">
+      <button class="go" id="load-all">전체 다시 읽기</button>
+      <button class="go ghost" id="report">리포트 만들기</button>
+    </div>
+    <div id="tiles" class="tiles"><p class="muted">전체 다시 읽기를 눌러 주세요.</p></div>
+    <div id="chart-survey" style="margin-top:18px"></div>
+    <div id="chart-skills" style="margin-top:18px"></div>
+    <div id="chart-apps" style="margin-top:18px"></div>
+  </section>
+
+  <section class="card">
+    <h2>함께 만들어가요로 온 의견</h2>
+    <p class="muted">선생님과 학생이 보낸 오류·결과·사진입니다.</p>
+    <div id="reports"><p class="muted">전체 다시 읽기를 눌러 주세요.</p></div>
   </section>
 
   <section class="card">
@@ -132,6 +165,8 @@ font-size:14px;margin-top:12px}
       백업 시트도 학급 단위 통계만 남기고 개별 행을 지웁니다.</p>
     <div class="note">이 화면의 암호는 가벼운 잠금입니다. 실제 보호는 방 번호와 Firebase 규칙이 합니다.
       방 번호는 학급 밖으로 알리지 않습니다.</div>
+    <p class="muted" style="margin-top:10px">
+      <a href="privacy.html" target="_blank" rel="noopener">개인정보 처리방침</a></p>
   </section>
 </section>
 
@@ -228,6 +263,9 @@ font-size:14px;margin-top:12px}
 
   var sheetRooms = [];
 
+  $("load-all").onclick = loadAll;
+  $("report").onclick = makeReport;
+
   $("pull").onclick = function () {
     $("pull-msg").textContent = "불러오는 중입니다...";
     askSheet("rooms", function (obj) {
@@ -279,6 +317,220 @@ font-size:14px;margin-top:12px}
     paintRooms();
     $("load").onclick();
   };
+
+  /* ---------- 그래프. 바깥 라이브러리를 쓰지 않고 SVG 를 직접 그린다 ---------- */
+
+  /* 이름표 자리는 250px 이다. 열세 글자를 넘으면 막대와 겹친다. */
+  function cut(s, n) { return s.length > n ? s.substring(0, n - 1) + "…" : s; }
+
+  function bars(title, items, keys, colors, names) {
+    if (!items.length) { return ""; }
+    /* 그림이 화면 폭에 맞춰 늘어난다. 좁은 viewBox 를 쓰면 글자가 함께 커져 우스워진다.
+       그래서 viewBox 를 넓게 잡고 글자를 작게 둔다. */
+    var VB = 760, w = 250, rowH = keys.length > 1 ? 44 : 30;
+    var h = items.length * rowH + 16;
+    var max = 0, i, k;
+    for (i = 0; i < items.length; i++) {
+      for (k = 0; k < keys.length; k++) {
+        if (Number(items[i][keys[k]]) > max) { max = Number(items[i][keys[k]]); }
+      }
+    }
+    if (!max) { max = 1; }
+    var s = '<div class="chart"><h3>' + esc(title) + '</h3>';
+    if (names && names.length > 1) {
+      s += '<div class="legend">';
+      for (k = 0; k < names.length; k++) {
+        s += '<span><i style="background:' + colors[k] + '"></i>' + esc(names[k]) + '</span>';
+      }
+      s += '</div>';
+    }
+    s += '<svg viewBox="0 0 ' + VB + ' ' + h + '" style="width:100%;height:auto" role="img">';
+    for (i = 0; i < items.length; i++) {
+      var y = i * rowH + 8;
+      s += '<text x="0" y="' + (y + 13) + '" font-size="13" font-weight="700" fill="#33312D">'
+        + esc(cut(String(items[i].label), 17)) + '</text>';
+      for (k = 0; k < keys.length; k++) {
+        var v = Number(items[i][keys[k]]) || 0;
+        var bw = Math.max(1, Math.round(v / max * (VB - w - 60)));
+        var by = y + (keys.length > 1 ? 4 + k * 16 : 6);
+        s += '<rect x="' + w + '" y="' + by + '" width="' + bw + '" height="13" rx="4" fill="'
+          + colors[k] + '" stroke="#111" stroke-width="1.6"/>';
+        s += '<text x="' + (w + bw + 7) + '" y="' + (by + 11) + '" font-size="12" '
+          + 'font-weight="800" fill="#6F6A61">' + v + '</text>';
+      }
+    }
+    s += '</svg></div>';
+    return s;
+  }
+
+  /* ---------- 한눈에 보기 ---------- */
+
+  var ALL = { survey: null, counts: null, reports: null, rooms: null };
+
+  function paintTiles() {
+    var t = [];
+    var rooms = (ALL.rooms && ALL.rooms.rooms) ? ALL.rooms.rooms.length : 0;
+    var people = 0, i;
+    if (ALL.counts && ALL.counts.counts) {
+      for (i = 0; i < ALL.counts.counts.length; i++) { people += ALL.counts.counts[i].people || 0; }
+    }
+    var pre = ALL.survey ? (ALL.survey.preCount || 0) : 0;
+    var post = ALL.survey ? (ALL.survey.postCount || 0) : 0;
+    var matched = ALL.survey ? (ALL.survey.matched || 0) : 0;
+    var reps = ALL.reports ? (ALL.reports.total || 0) : 0;
+    var change = "";
+    if (ALL.survey && ALL.survey.items && ALL.survey.items.length) {
+      var sp = 0, sq = 0, n = 0;
+      for (i = 0; i < ALL.survey.items.length; i++) {
+        var it = ALL.survey.items[i];
+        if (it.pre && it.post) { sp += it.pre; sq += it.post; n += 1; }
+      }
+      if (n) { change = (Math.round((sq - sp) / n * 100) / 100); change = (change > 0 ? "+" : "") + change; }
+    }
+    t.push(['<b>' + rooms + '</b><span>만들어진 방</span>']);
+    t.push(['<b>' + people + '</b><span>제출한 사람 (연인원)</span>']);
+    t.push(['<b>' + pre + " / " + post + '</b><span>설문 사전 / 사후</span>']);
+    t.push(['<b>' + matched + '</b><span>사전·사후가 이어진 사람</span>']);
+    t.push(['<b>' + (change === "" ? "-" : change) + '</b><span>설문 평균 변화</span>']);
+    t.push(['<b>' + reps + '</b><span>받은 의견</span>']);
+    var h = "";
+    for (i = 0; i < t.length; i++) { h += '<div class="tile">' + t[i] + '</div>'; }
+    $("tiles").innerHTML = h;
+  }
+
+  function paintCharts() {
+    var i, items = [];
+    if (ALL.survey && ALL.survey.items) {
+      for (i = 0; i < ALL.survey.items.length; i++) {
+        items.push({ label: (i + 1) + ". " + (SURVEY_ITEMS[i] || ""),
+          pre: ALL.survey.items[i].pre || 0, post: ALL.survey.items[i].post || 0 });
+      }
+      $("chart-survey").innerHTML = bars("설문 문항별 사전·사후 평균 (5점)", items,
+        ["pre", "post"], ["#FFE24B", "#00D45A"], ["사전", "사후"]);
+    }
+    /* 영역별 평균은 시트가 주지 않는다. 문항 평균을 영역에 묶어 여기서 낸다.
+       (주체성 = 1·6번 문항, 비판적 사고 = 2·5번 …) */
+    if (ALL.survey && ALL.survey.items) {
+      var sk = [], si, sj;
+      for (si = 0; si < SKILLS.length; si++) {
+        var ps = 0, qs = 0, cnt = 0;
+        for (sj = 0; sj < SKILLS[si].items.length; sj++) {
+          var it2 = ALL.survey.items[SKILLS[si].items[sj] - 1];
+          if (!it2 || it2.pre === "" || it2.post === "") { continue; }
+          ps += Number(it2.pre);
+          qs += Number(it2.post);
+          cnt += 1;
+        }
+        if (cnt) {
+          sk.push({ label: SKILLS[si].name,
+            pre: Math.round(ps / cnt * 10) / 10, post: Math.round(qs / cnt * 10) / 10 });
+        }
+      }
+      $("chart-skills").innerHTML = bars("휴먼스킬 영역별 사전·사후 평균", sk,
+        ["pre", "post"], ["#FFE24B", "#2B59E0"], ["사전", "사후"]);
+    }
+    if (ALL.counts && ALL.counts.counts) {
+      var byLesson = {};
+      for (i = 0; i < ALL.counts.counts.length; i++) {
+        var c = ALL.counts.counts[i];
+        byLesson[c.lesson] = (byLesson[c.lesson] || 0) + (c.people || 0);
+      }
+      var arr = [];
+      for (i = 0; i < APPS.length; i++) {
+        var lid = "L" + (i + 1 < 10 ? "0" : "") + (i + 1);
+        arr.push({ label: APPS[i].label, n: byLesson[lid] || 0 });
+      }
+      $("chart-apps").innerHTML = bars("차시별 제출 인원", arr, ["n"], ["#7B4FE8"], ["사람"]);
+    }
+  }
+
+  function paintReports(d) {
+    if (!d || !d.reports || !d.reports.length) {
+      $("reports").innerHTML = '<p class="muted">아직 들어온 의견이 없습니다.</p>';
+      return;
+    }
+    var h = '<div class="row" style="margin-bottom:8px">';
+    var k;
+    for (k in d.kinds) {
+      if (d.kinds.hasOwnProperty(k)) {
+        h += '<span class="pill">' + esc(k) + " " + d.kinds[k] + '</span>';
+      }
+    }
+    for (k in d.who) {
+      if (d.who.hasOwnProperty(k)) {
+        h += '<span class="pill" style="background:#fff">' + esc(k) + " " + d.who[k] + '</span>';
+      }
+    }
+    h += '</div>';
+    for (var i = 0; i < d.reports.length && i < 50; i++) {
+      var r = d.reports[i];
+      h += '<div class="rep"><div class="top"><b>' + esc(r.kind) + '</b><span>' + esc(r.who)
+        + '</span><span>' + esc(r.lesson) + '</span><span>' + esc(r.at) + '</span></div>'
+        + '<p>' + esc(r.text) + '</p>';
+      if (r.shots) {
+        var links = r.shots.split(String.fromCharCode(10));
+        for (var j = 0; j < links.length; j++) {
+          if (links[j]) {
+            h += '<a href="' + esc(links[j]) + '" target="_blank" rel="noopener">사진 ' + (j + 1) + ' 열기</a> ';
+          }
+        }
+      }
+      h += '</div>';
+    }
+    if (d.reports.length > 50) {
+      h += '<p class="muted" style="margin-top:8px">최근 50개만 보여 줍니다. 나머지는 시트에서 봅니다.</p>';
+    }
+    $("reports").innerHTML = h;
+  }
+
+  function loadAll() {
+    $("tiles").innerHTML = '<p class="muted">읽는 중입니다...</p>';
+    askSheet("rooms", function (o) { ALL.rooms = o; paintTiles(); }, function () {});
+    askSheet("survey", function (o) { ALL.survey = o; paintDash(o); paintTiles(); paintCharts(); },
+      function (msg) { $("tiles").innerHTML = '<p class="muted">' + esc(msg) + '</p>'; });
+    askSheet("counts", function (o) { ALL.counts = o; paintCounts(o); paintTiles(); paintCharts(); },
+      function () {});
+    askSheet("reports", function (o) { ALL.reports = o; paintReports(o); paintTiles(); },
+      function () { $("reports").innerHTML = '<p class="muted">의견을 읽지 못했습니다. 앱스크립트를 새 버전으로 배포했는지 봅니다.</p>'; });
+  }
+
+  /* ---------- 리포트. 새 창에 인쇄용으로 정리한다 ---------- */
+
+  function makeReport() {
+    var now = new Date();
+    var stamp = now.getFullYear() + "-" + two(now.getMonth() + 1) + "-" + two(now.getDate());
+    var h = '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
+      + '<title>WISE 운영 리포트 ' + stamp + '</title><style>'
+      + 'body{font-family:Malgun Gothic,Apple SD Gothic Neo,sans-serif;color:#111;margin:28px;line-height:1.6}'
+      + 'h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:22px 0 8px;border-bottom:2px solid #111;padding-bottom:4px}'
+      + '.sub{color:#666;font-size:13px;margin:0 0 16px}'
+      + '.tiles{display:flex;gap:10px;flex-wrap:wrap}'
+      + '.tile{border:2px solid #111;border-radius:10px;padding:8px 12px;min-width:130px}'
+      + '.tile b{display:block;font-size:20px}.tile span{font-size:12px;color:#666}'
+      + 'table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}'
+      + 'th,td{border:1px solid #999;padding:5px 7px;text-align:left}th{background:#eee}'
+      + '.chart{border:1px solid #999;border-radius:8px;padding:8px;margin-top:8px}'
+      + '.chart h3{font-size:14px;margin:0 0 6px}.legend{font-size:12px;color:#666;margin-bottom:4px}'
+      + '.rep{border:1px solid #999;border-radius:8px;padding:8px;margin-top:6px}'
+      + '.rep .top{font-size:12px;color:#666}'
+      + '@media print{@page{margin:14mm}}'
+      + '</style></head><body>';
+    h += '<h1>WISE 운영 리포트</h1><p class="sub">뽑은 날 ' + stamp
+      + ' · 인간중심 사고를 기르는 AI적정활용 수업</p>';
+    h += '<h2>한눈에 보기</h2><div class="tiles">' + $("tiles").innerHTML + '</div>';
+    h += '<h2>설문</h2>' + $("chart-survey").innerHTML + $("chart-skills").innerHTML;
+    h += '<h2>차시별 참여</h2>' + $("chart-apps").innerHTML;
+    h += '<h2>사전·사후 표</h2>' + $("dash").innerHTML;
+    h += '<h2>받은 의견</h2>' + $("reports").innerHTML;
+    h += '<p class="sub" style="margin-top:24px">2026년 G-DEAL A.N.D · CC BY-NC-SA</p>';
+    h += '</body></html>';
+    var w = window.open("", "_blank");
+    if (!w) { alert("새 창이 막혀 있습니다. 팝업을 허용해 주세요."); return; }
+    w.document.open();
+    w.document.write(h);
+    w.document.close();
+    setTimeout(function () { w.print(); }, 600);
+  }
 
   function loadDash() {
     askSheet("survey", function (obj) { paintDash(obj); },
