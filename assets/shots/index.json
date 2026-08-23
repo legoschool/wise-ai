@@ -9,7 +9,7 @@
    "file": "L10_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "하루 정비소",
    "file": "L10_2_hub.png"
   },
   {
@@ -29,7 +29,7 @@
    "file": "L10_6_vow.png"
   },
   {
-   "name": "우리 반과 견주기",
+   "name": "우리 반",
    "file": "L10_7_class.png"
   }
  ],
@@ -43,11 +43,11 @@
    "file": "L01_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "교무실",
    "file": "L01_2_hub.png"
   },
   {
-   "name": "pre",
+   "name": "나라면 어떻게 맞힐까",
    "file": "L01_3_pre.png"
   },
   {
@@ -55,15 +55,15 @@
    "file": "L01_4_label.png"
   },
   {
-   "name": "exam",
+   "name": "학습과 시험",
    "file": "L01_5_exam.png"
   },
   {
-   "name": "cut",
+   "name": "편식 실험",
    "file": "L01_6_cut.png"
   },
   {
-   "name": "role",
+   "name": "역할 나누기",
    "file": "L01_7_role.png"
   }
  ],
@@ -77,27 +77,27 @@
    "file": "L02_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "검증소",
    "file": "L02_2_hub.png"
   },
   {
-   "name": "훈련장",
+   "name": "훈련소",
    "file": "L02_3_train.png"
   },
   {
-   "name": "verify",
+   "name": "검증실",
    "file": "L02_4_verify.png"
   },
   {
-   "name": "hunt",
+   "name": "환각 사냥",
    "file": "L02_5_hunt.png"
   },
   {
-   "name": "우리 반과 견주기",
+   "name": "우리 반 판정",
    "file": "L02_6_class.png"
   },
   {
-   "name": "결과 카드",
+   "name": "검증관 카드",
    "file": "L02_7_card.png"
   }
  ],
@@ -111,27 +111,27 @@
    "file": "L03_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "탐정 사무소",
    "file": "L03_2_hub.png"
   },
   {
-   "name": "guess",
+   "name": "짐작하기",
    "file": "L03_3_guess.png"
   },
   {
-   "name": "draw",
+   "name": "그림 공장",
    "file": "L03_4_draw.png"
   },
   {
-   "name": "num",
+   "name": "세어 보기",
    "file": "L03_5_num.png"
   },
   {
-   "name": "store",
+   "name": "사진 창고",
    "file": "L03_6_store.png"
   },
   {
-   "name": "who",
+   "name": "마음 살피기",
    "file": "L03_7_who.png"
   }
  ],
@@ -145,7 +145,7 @@
    "file": "L04_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "지킴이 본부",
    "file": "L04_2_hub.png"
   },
   {
@@ -179,7 +179,7 @@
    "file": "L05_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "정비소",
    "file": "L05_2_hub.png"
   },
   {
@@ -187,7 +187,7 @@
    "file": "L05_3_quiz.png"
   },
   {
-   "name": "판정",
+   "name": "판별대",
    "file": "L05_4_judge.png"
   },
   {
@@ -195,11 +195,11 @@
    "file": "L05_5_class.png"
   },
   {
-   "name": "fix",
+   "name": "정비 작업대",
    "file": "L05_6_fix.png"
   },
   {
-   "name": "수칙 회의실",
+   "name": "정비 수칙",
    "file": "L05_7_rule.png"
   }
  ],
@@ -213,15 +213,15 @@
    "file": "L06_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "판정소",
    "file": "L06_2_hub.png"
   },
   {
-   "name": "몸풀기",
+   "name": "신호 익히기",
    "file": "L06_3_quiz.png"
   },
   {
-   "name": "판정",
+   "name": "1차 판정",
    "file": "L06_4_judge.png"
   },
   {
@@ -233,7 +233,7 @@
    "file": "L06_6_cond.png"
   },
   {
-   "name": "결과 카드",
+   "name": "판정단 카드",
    "file": "L06_7_card.png"
   }
  ],
@@ -247,27 +247,27 @@
    "file": "L07_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "회의실",
    "file": "L07_2_hub.png"
   },
   {
-   "name": "sense",
+   "name": "여덟 기준 우리 말로",
    "file": "L07_3_sense.png"
   },
   {
-   "name": "draft",
+   "name": "조항 쓰기",
    "file": "L07_4_draft.png"
   },
   {
-   "name": "gather",
+   "name": "제안 모으기",
    "file": "L07_5_gather.png"
   },
   {
-   "name": "vote",
+   "name": "투표",
    "file": "L07_6_vote.png"
   },
   {
-   "name": "board",
+   "name": "묶기와 확정",
    "file": "L07_7_board.png"
   }
  ],
@@ -281,27 +281,27 @@
    "file": "L08_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "광장",
    "file": "L08_2_hub.png"
   },
   {
-   "name": "role",
+   "name": "역할 나누기",
    "file": "L08_3_role.png"
   },
   {
-   "name": "copy",
+   "name": "문구 공방",
    "file": "L08_4_copy.png"
   },
   {
-   "name": "fix",
+   "name": "고친 곳 남기기",
    "file": "L08_5_fix.png"
   },
   {
-   "name": "credit",
+   "name": "표기표",
    "file": "L08_6_credit.png"
   },
   {
-   "name": "board",
+   "name": "게시판",
    "file": "L08_7_board.png"
   }
  ],
@@ -315,27 +315,27 @@
    "file": "L09_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "글 공방",
    "file": "L09_2_hub.png"
   },
   {
-   "name": "topic",
+   "name": "주제 고르기",
    "file": "L09_3_topic.png"
   },
   {
-   "name": "draft",
+   "name": "1단계 초고",
    "file": "L09_4_draft.png"
   },
   {
-   "name": "부탁 시험소",
+   "name": "질문 만들기",
    "file": "L09_5_ask.png"
   },
   {
-   "name": "note",
+   "name": "2단계 기록",
    "file": "L09_6_note.png"
   },
   {
-   "name": "rewrite",
+   "name": "3단계 다시 쓰기",
    "file": "L09_7_rewrite.png"
   }
  ],
@@ -349,27 +349,27 @@
    "file": "L11_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "좋은문제 연구소",
    "file": "L11_2_hub.png"
   },
   {
-   "name": "obs",
+   "name": "관찰대",
    "file": "L11_3_obs.png"
   },
   {
-   "name": "narrow",
+   "name": "좁히기 작업대",
    "file": "L11_4_narrow.png"
   },
   {
-   "name": "판정",
+   "name": "판정실",
    "file": "L11_5_judge.png"
   },
   {
-   "name": "role",
+   "name": "역할 나누기",
    "file": "L11_6_role.png"
   },
   {
-   "name": "plan",
+   "name": "설계실",
    "file": "L11_7_plan.png"
   }
  ],
@@ -383,27 +383,27 @@
    "file": "L12_1_story.png"
   },
   {
-   "name": "허브",
+   "name": "전시장",
    "file": "L12_2_hub.png"
   },
   {
-   "name": "booth",
+   "name": "부스 차리기",
    "file": "L12_3_booth.png"
   },
   {
-   "name": "이름표 붙이기",
+   "name": "표기표 만들기",
    "file": "L12_4_label.png"
   },
   {
-   "name": "pledge",
+   "name": "약속 점검",
    "file": "L12_5_pledge.png"
   },
   {
-   "name": "tour",
+   "name": "전시장 둘러보기",
    "file": "L12_6_tour.png"
   },
   {
-   "name": "back2",
+   "name": "돌아보기",
    "file": "L12_7_back2.png"
   }
  ],
