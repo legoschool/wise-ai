@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>웹앱 사용 안내</title>
-<link rel="stylesheet" href="../assets/style.css?v=e1155576">
+<link rel="stylesheet" href="../assets/style.css?v=6f197e0e">
 </head>
 <body>
 <header class="top"><div class="wrap"><a class="brand" href="../index.html">WISE <em>AI적정활용</em></a><nav class="nav"><a href="../index.html">홈</a><a href="../browse.html">둘러보기</a><a href="../skills.html">인간중심 사고</a><a href="../survey.html">자기인식 진단</a><a href="../module/M1.html">발견</a><a href="../module/M2.html">판단</a><a href="../module/M3.html">실천</a><a href="../apps.html">12차시 웹앱</a><a href="../guide/index.html" aria-current="page">사용 안내</a><a href="../refs.html">참고자료</a><a href="../report.html">함께 만들어가요</a><a href="../admin.html">관리자</a><a href="../about.html">소개</a></nav></div></header>
@@ -219,10 +219,29 @@ font-size:14px;font-weight:800;cursor:pointer;color:#101010}
 #wfb-panel select,#wfb-panel textarea{width:100%;font:inherit;font-size:16px;padding:11px 13px;
 border:2.5px solid #111;border-radius:12px;background:#fff;color:#33312D}
 #wfb-panel textarea{min-height:130px;line-height:1.7;resize:vertical}
-.wfb-shotbox{border:2.5px dashed #111;border-radius:12px;background:#EFE9DA;padding:12px;margin-top:6px}
-.wfb-shotbox input[type=file]{font:inherit;font-size:14px;max-width:100%}
+.wfb-shotbox{border:2.5px dashed #111;border-radius:12px;background:#EFE9DA;padding:14px;margin-top:6px;
+outline:none}
+.wfb-shotbox.on{background:#DFF7E7;border-style:solid}
+.wfb-shotbox:focus{box-shadow:0 0 0 3px #FFE24B}
+.wfb-shotbox input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.wfb-pickfile{display:inline-block;background:#fff;border:2.5px solid #111;border-radius:999px;
+padding:9px 16px;font:800 15px/1 inherit;color:#101010;cursor:pointer}
+.wfb-pickfile:hover{background:#FFE24B}
+.wfb-drop-main{margin:0 0 4px;font-size:15.5px;font-weight:800;color:#101010}
+.wfb-or{display:flex;align-items:center;gap:8px;margin:12px 0 8px;color:#6F6A61;font-size:13px;
+font-weight:800}
+.wfb-or::before,.wfb-or::after{content:"";flex:1;height:2px;background:#CFC6B4}
 .wfb-mini{font-size:13.5px;color:#6F6A61;margin-top:6px}
-.wfb-list{margin:8px 0 0;padding-left:18px;font-size:14px;color:#6F6A61}
+.wfb-list{margin:10px 0 0;padding:0;list-style:none;font-size:14px;color:#6F6A61}
+.wfb-list li{display:flex;align-items:center;gap:9px;margin-top:8px;background:#fff;
+border:2px solid #111;border-radius:10px;padding:6px 8px}
+.wfb-list img{width:44px;height:44px;object-fit:cover;border:2px solid #111;border-radius:7px;
+display:block;flex:0 0 auto}
+.wfb-list span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+font-weight:700;color:#33312D}
+.wfb-del{flex:0 0 auto;background:#fff;border:2px solid #111;border-radius:999px;padding:4px 10px;
+font:800 13px/1 inherit;cursor:pointer;color:#101010}
+.wfb-del:hover{background:#FFE24B}
 .wfb-check{display:flex;gap:9px;align-items:flex-start;margin-top:12px;background:#fff;
 border:2.5px solid #111;border-radius:12px;padding:12px 13px;font-size:14.5px}
 .wfb-check input{width:22px;height:22px;margin:2px 0 0;flex:0 0 auto}
@@ -289,11 +308,13 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
     <textarea id="wfb-text" maxlength="2000"></textarea>
 
     <label for="wfb-file">사진 (없어도 됩니다 · 최대 3장)</label>
-    <div class="wfb-shotbox">
+    <div class="wfb-shotbox" id="wfb-drop" tabindex="0">
+      <p class="wfb-drop-main">여기에 <b>붙여넣기</b> 하거나 사진을 <b>끌어다</b> 놓으세요</p>
+      <p class="wfb-mini" id="wfb-drop-tip">화면을 담으려면 <b>Windows 키 + Shift + S</b> 로 오린 뒤
+        이 칸을 누르고 <b>Ctrl V</b>. 창을 고르지 않아도 됩니다.</p>
+      <div class="wfb-or"><span>또는</span></div>
       <input id="wfb-file" type="file" accept="image/*" multiple>
-      <button type="button" class="wfb-tag wfb-hide" id="wfb-grab" style="margin-top:8px">화면 캡처해서 넣기</button>
-      <p class="wfb-mini">캡처한 그림은 이 칸을 누르고 <b>Ctrl V</b> 로 붙여 넣어도 됩니다.
-        보내기 전에 크기를 줄입니다.</p>
+      <label class="wfb-pickfile" for="wfb-file">사진 고르기</label>
       <ul class="wfb-list" id="wfb-shotlist"></ul>
     </div>
 
@@ -309,11 +330,11 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
   </div>
 
   <div id="wfb-s3" class="wfb-hide">
-    <h2>고맙습니다</h2>
+    <h2>잘 받았습니다</h2>
     <div class="wfb-done">
-      <p><b>보내 주신 것이 다음 판에 들어갑니다.</b></p>
-      <p class="wfb-lede">이 수업은 해 보신 분들이 알려 주신 것으로 고쳐집니다.
-        고칠 곳을 또 만나시면 언제든 다시 눌러 주세요.</p>
+      <p><b>보내 주셔서 고맙습니다.</b></p>
+      <p class="wfb-lede">여기 모인 이야기로 다음 자료를 고칩니다.
+        더 알려 주실 것이 생기면 언제든 다시 열어 주세요.</p>
     </div>
     <button type="button" class="wfb-send" id="wfb-more">하나 더 보내기</button>
     <button type="button" class="wfb-send wfb-ghost" id="wfb-fin">닫기</button>
@@ -341,6 +362,10 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
   var who = "", kind = "", shots = [], badShots = 0, textOnly = false;
 
   function $(id) { return document.getElementById(id); }
+
+  function screenNarrow() {
+    return (window.innerWidth || document.documentElement.clientWidth || 0) < 760;
+  }
   function show(el, on) {
     var cls = el.className.split(" "), out = [], i;
     for (i = 0; i < cls.length; i++) {
@@ -376,8 +401,20 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
 
   function drawList() {
     var out = "", i;
-    for (i = 0; i < shots.length; i++) { out += "<li>" + shots[i].name + "</li>"; }
+    for (i = 0; i < shots.length; i++) {
+      out += '<li><img alt="" src="data:image/jpeg;base64,' + shots[i].b64 + '">'
+        + '<span>' + shots[i].name + '</span>'
+        + '<button type="button" class="wfb-del" data-no="' + i + '">빼기</button></li>';
+    }
     $("wfb-shotlist").innerHTML = out;
+    var b = $("wfb-shotlist").getElementsByTagName("button"), k;
+    for (k = 0; k < b.length; k++) {
+      b[k].onclick = function () {
+        shots.splice(Number(this.getAttribute("data-no")), 1);
+        drawList();
+        say("");
+      };
+    }
   }
 
   function fromCanvas(src, w, h) {
@@ -421,24 +458,26 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
     say("사진 " + badShots + "장을 열지 못했어요. 다른 사진으로 바꾸거나, 그대로 보내면 글만 갑니다.", "bad");
   }
 
-  function grabScreen() {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) { return; }
-    navigator.mediaDevices.getDisplayMedia({ video: true }).then(function (stream) {
-      var v = document.createElement("video");
-      v.muted = true;
-      v.srcObject = stream;
-      v.onloadedmetadata = function () {
-        v.play();
-        setTimeout(function () {
-          addShot(fromCanvas(v, v.videoWidth, v.videoHeight), "화면캡처.jpg");
-          var tr = stream.getTracks(), i;
-          for (i = 0; i < tr.length; i++) { tr[i].stop(); }
-          say("화면을 넣었어요.", "good");
-        }, 300);
-      };
-    })["catch"](function () {
-      say("화면 캡처를 못 했어요. 사진 파일로 넣어 주세요.", "bad");
-    });
+  /* 끌어다 놓기. 파일 탐색기에서 사진을 끌어 오면 그대로 담는다. */
+  function onDrop(e) {
+    e.preventDefault();
+    $("wfb-drop").className = "wfb-shotbox";
+    var dt = e.dataTransfer;
+    if (!dt) { return; }
+    var got = [], i;
+    if (dt.files && dt.files.length) {
+      for (i = 0; i < dt.files.length; i++) {
+        if (dt.files[i].type && dt.files[i].type.indexOf("image") === 0) { got.push(dt.files[i]); }
+      }
+    }
+    if (got.length) {
+      badShots = 0;
+      textOnly = false;
+      takeFiles(got);
+      say("사진을 넣었어요.", "good");
+    } else {
+      say("사진 파일만 넣을 수 있어요.", "bad");
+    }
   }
 
   function onPaste(e) {
@@ -613,9 +652,16 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
     for (i = 0; i < b.length; i++) {
       b[i].onclick = function () { pickKind(this.getAttribute("data-kind")); };
     }
-    if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
-      show($("wfb-grab"), true);
-      $("wfb-grab").onclick = grabScreen;
+    var drop = $("wfb-drop");
+    drop.ondragover = function (e) { e.preventDefault(); drop.className = "wfb-shotbox on"; };
+    drop.ondragleave = function () { drop.className = "wfb-shotbox"; };
+    drop.ondrop = onDrop;
+    drop.onclick = function () { drop.focus(); };
+    /* 휴대폰에는 붙여넣기도 끌어다 놓기도 없다. 안내를 기기에 맞춰 바꾼다. */
+    if (!("onpaste" in document.documentElement) || (navigator.maxTouchPoints > 0 && screenNarrow())) {
+      $("wfb-drop-tip").innerHTML = "사진첩에서 고르거나 그 자리에서 찍어 넣을 수 있어요.";
+      var dm = document.getElementsByClassName("wfb-drop-main");
+      if (dm.length) { dm[0].innerHTML = "아래에서 <b>사진 고르기</b>를 누르세요"; }
     }
     if (WHO0) { pickWho(WHO0); }
     if (LESSON0) { $("wfb-lesson").value = LESSON0.split(" · ")[0]; }
