@@ -94,6 +94,41 @@ animation:wpulse 1.1s ease-in-out infinite}
 #wise-app .skel.w60{width:60%}
 #wise-app .skel.w80{width:80%}
 @keyframes wpulse{0%,100%{opacity:1}50%{opacity:.45}}
+/* 장면과 선택. 고르고 뜸 들이고 겪는 자리다. */
+#wise-app .scene{margin-top:14px}
+#wise-app .scene .lead{font-size:19px;font-weight:800;color:var(--muted);margin:0 0 10px;
+padding-left:14px;border-left:5px solid var(--sun)}
+#wise-app .scene .ask{font-size:23px;font-weight:900;color:var(--ink);margin:0 0 12px}
+#wise-app .scene .picks{display:grid;gap:12px}
+#wise-app .scene .pick{position:relative;overflow:hidden;text-align:left;font-size:21px;
+font-weight:800;border:3px solid var(--line);border-radius:16px;background:#fff;
+padding:16px 18px;cursor:pointer;box-shadow:3px 3px 0 var(--line);
+transition:transform .12s ease,box-shadow .12s ease}
+#wise-app .scene .pick:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--line)}
+#wise-app .scene .pick:disabled{cursor:default}
+#wise-app .scene .pick .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--sun);
+z-index:0}
+#wise-app .scene .pick.chosen .fill{width:100%;animation:wfill .25s ease-out forwards}
+#wise-app .scene .pick span.t{position:relative;z-index:1}
+#wise-app .scene .pick.dim{opacity:.42}
+@keyframes wfill{from{width:0}to{width:100%}}
+#wise-app .scene .think{display:flex;align-items:center;gap:12px;margin-top:16px;
+font-size:20px;font-weight:800;color:var(--ink)}
+#wise-app .scene .out{margin-top:16px;border:3px solid var(--line);border-radius:16px;
+background:var(--accent-soft);padding:18px 20px;box-shadow:var(--shadow);
+animation:wrise .45s cubic-bezier(.22,.61,.36,1)}
+#wise-app .scene .out .tag{display:inline-block;background:var(--line);color:#fff;
+border-radius:999px;padding:3px 12px;font-size:15px;font-weight:900;margin-bottom:8px}
+#wise-app .scene .out p{margin:0;font-size:21px;font-weight:700;color:var(--ink)}
+#wise-app .scene .out .more{margin-top:10px;font-size:19px;font-weight:700;color:var(--muted)}
+@keyframes wrise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+#wise-app .scene .go{margin-top:14px;animation:wsoft .5s ease-out}
+@keyframes wsoft{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+#wise-app .scene .out,#wise-app .scene .go,#wise-app .quest.on{animation:none}
+#wise-app .scene .pick.chosen .fill{animation:none;width:100%}
+#wise-app .spin{animation-duration:2s}
+}
 #wise-app button.busy{position:relative;color:var(--muted)}
 #wise-app .busy-wrap{position:fixed;inset:0;background:rgba(244,238,224,.72);display:flex;
 align-items:center;justify-content:center;z-index:65}
@@ -405,6 +440,112 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
   function wiseDraft(obj) {
     try { localStorage.setItem(LOCAL_KEY, JSON.stringify(obj)); } catch (e) {}
     $("w-sync").textContent = "이 기기에 임시 저장됨";
+  }
+
+  /* 장면 하나를 그린다. 상황을 읽고 고르면, 뜸을 들인 뒤 결과가 열린다.
+
+     고른 것에 옳고 그름을 매기지 않는다. 고른 대로 다른 일이 벌어질 뿐이다.
+     고른 값은 이 기기에만 남긴다. 서버로 보내지 않는다.
+
+     cfg = {
+       mount   : 그려 넣을 자리 id
+       lead    : 지난 차시에서 받은 것 한 줄 (없어도 된다)
+       ask     : 물음 한 줄
+       choices : [{t: 보기, think: [기다리는 동안 뜨는 두 줄], r: 벌어진 일,
+                   more: 덧붙일 한 줄(없어도 된다), tag: 꼬리표}]
+       goText  : 넘어가는 단추 글 (없으면 "다음으로")
+       after   : function(고른번호) 넘어갈 때 부른다
+       key     : 이 기기에 고른 것을 남길 이름 (없으면 남기지 않는다)
+     } */
+  function wisePick(cfg) {
+    var host = $(cfg.mount);
+    if (!host) { return; }
+    var picks = cfg.choices || [];
+    var goText = cfg.goText || "다음으로";
+    var timers = [];
+
+    function clearTimers() {
+      for (var t = 0; t < timers.length; t++) { clearTimeout(timers[t]); }
+      timers = [];
+    }
+
+    function paint() {
+      var h = "";
+      /* 지난 차시에서 받은 것을 첫머리에서 부른다. 열두 편이 한 이야기로 이어진다. */
+      if (cfg.lead) { h += '<p class="lead">' + esc(cfg.lead) + '</p>'; }
+      h += '<p class="ask">' + esc(cfg.ask) + '</p><div class="picks">';
+      for (var i = 0; i < picks.length; i++) {
+        h += '<button type="button" class="pick" data-i="' + i + '">' +
+          '<span class="fill"></span><span class="t">' + esc(picks[i].t) + '</span></button>';
+      }
+      h += '</div><div id="' + cfg.mount + '-o"></div>';
+      host.className = "scene";
+      host.innerHTML = h;
+      var bs = host.getElementsByTagName("button");
+      for (var k = 0; k < bs.length; k++) {
+        bs[k].onclick = function () { choose(parseInt(this.getAttribute("data-i"), 10)); };
+      }
+    }
+
+    function choose(i) {
+      var one = picks[i];
+      if (!one) { return; }
+      clearTimers();
+      var bs = host.getElementsByTagName("button");
+      for (var k = 0; k < bs.length; k++) {
+        bs[k].disabled = true;
+        bs[k].className = "pick" + (k === i ? " chosen" : " dim");
+      }
+      if (cfg.key) {
+        var d = {};
+        d[cfg.key] = i;
+        wiseDraft(d);
+      }
+      var think = one.think || ["생각하는 중이에요"];
+      var out = $(cfg.mount + "-o");
+      out.innerHTML = '<div class="think"><span class="spin"></span>' +
+        '<span id="' + cfg.mount + '-th">' + esc(think[0]) + '</span></div>';
+      if (think.length > 1) {
+        timers.push(setTimeout(function () {
+          var th = $(cfg.mount + "-th");
+          if (th) { th.innerHTML = esc(think[1]); }
+        }, 800));
+      }
+      timers.push(setTimeout(function () { reveal(i); }, 1600));
+    }
+
+    function reveal(i) {
+      var one = picks[i];
+      var out = $(cfg.mount + "-o");
+      var h = '<div class="out"><span class="tag">' + esc(one.tag || "벌어진 일") + '</span>' +
+        '<p>' + esc(one.r) + '</p>';
+      if (one.more) { h += '<p class="more">' + esc(one.more) + '</p>'; }
+      h += '</div><div id="' + cfg.mount + '-g"></div>';
+      out.innerHTML = h;
+      timers.push(setTimeout(function () {
+        var g = $(cfg.mount + "-g");
+        if (!g) { return; }
+        g.className = "go";
+        g.innerHTML = '<button type="button" id="' + cfg.mount + '-next">' + esc(goText) + '</button>';
+        $(cfg.mount + "-next").onclick = function () {
+          clearTimers();
+          if (typeof cfg.after === "function") { cfg.after(i); }
+        };
+      }, 900));
+    }
+
+    paint();
+    /* 미리보기 통로. 주소에 ?shot=...&pick=번호 를 붙이면 그 보기를 골라 둔 채로 그린다.
+       교사 안내 자료에 결과 화면을 실을 때 쓴다. 수업에서는 쓰이지 않는다. */
+    var qs = "";
+    try { qs = window.location && window.location.search ? window.location.search : ""; } catch (e) { qs = ""; }
+    if (qs.indexOf("pick=") >= 0) {
+      var pv = parseInt(qs.split("pick=")[1].split("&")[0], 10);
+      if (pv >= 0 && pv < picks.length) {
+        setTimeout(function () { choose(pv); }, 60);
+      }
+    }
+    return { paint: paint, choose: choose };
   }
 
   function wiseStep(i, n) {
@@ -821,8 +962,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       '<p style="margin-top:8px">오늘 여러분은 <b>작가</b>예요. AI 는 짚어 주는 <b>조언가</b>고요.</p>' +
       '<p class="muted" style="margin-top:8px">우리 반 약속 2조항, 내 생각 먼저.</p>' +
       '<p class="muted">첫 자물쇠는 내 생각 다섯 문장으로 열려요.</p>' +
-      '<div class="row" style="margin-top:14px">' +
-      '<button type="button" id="go-hub">공방으로 들어가기</button></div></div>');
+      '<div id="sc"></div></div>');
 
     h += q("hub",
       '<div class="card"><h2>글 공방</h2>' +
@@ -1382,14 +1522,34 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       };
     }
 
-    if ($("go-hub")) {
-      $("go-hub").onclick = function () {
-        if (st.opened) { wiseGo("hub"); return; }
-        st.opened = true;
-        wiseBusy(true, "공방 문을 여는 중");
-        softDelay(function () { wiseBusy(false); wiseGo("hub"); }, 520);
-      };
-    }
+    /* 이야기 화면의 장면. 고르면 뜸을 들인 뒤 결과가 열린다.
+       옳고 그름을 매기지 않는다. 고른 대로 다른 일이 벌어질 뿐이다. */
+    wisePick({
+      mount: "sc",
+      lead: "현수막을 걸 때 무엇을 고쳤는지 적었지요. 오늘은 내 글에서 그것을 합니다.",
+      ask: "빈 종이 앞이에요. 무엇부터 할까요?",
+      goText: "공방으로 들어가기",
+      key: "scene9",
+      choices: [
+        { t: "AI에게 대신 써 달라고 한다",
+          think: ["AI가 글을 뽑아내는 중이에요", "글을 읽어 보는 중이에요"],
+          r: "잘 쓴 글이 나왔어요. 그런데 내 생각이 한 줄도 없어요.",
+          more: "이 글에 내 이름을 쓸 수 있을까요?",
+          tag: "벌어진 일" },
+        { t: "내가 먼저 다섯 문장을 쓴다",
+          think: ["연필을 드는 중이에요", "자물쇠가 열리는 중이에요"],
+          r: "서툴러도 내 문장 다섯 줄이 생겼어요. 첫 자물쇠가 열렸어요.",
+          more: "이제 AI에게 무엇을 물어야 할까요?",
+          tag: "벌어진 일" },
+        { t: "AI에게 무엇이 부족한지 짚어 달라고 한다",
+          think: ["AI가 종이를 들여다보는 중이에요", "종이가 비어 있는 것을 보는 중이에요"],
+          r: "짚어 줄 글이 아직 없어요. 짚어 주는 일은 내 글이 있어야 되는 일이에요.",
+          more: "순서를 바꾸면 무엇이 달라질까요?",
+          tag: "벌어진 일" },
+      ],
+      after: function () { if (st.opened) { wiseGo("hub"); return; }     st.opened = true;     wiseBusy(true, "공방 문을 여는 중");     softDelay(function () { wiseBusy(false); wiseGo("hub"); }, 520); }
+    });
+    
     if ($("b-topic")) { $("b-topic").onclick = function () { wiseGo("topic"); }; }
     if ($("b-draft")) { $("b-draft").onclick = function () { wiseGo("draft"); }; }
     if ($("b-ask")) { $("b-ask").onclick = function () { if (!goLocked("ask")) { wiseGo("ask"); } }; }
