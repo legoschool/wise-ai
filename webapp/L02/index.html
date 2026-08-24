@@ -123,6 +123,13 @@ border-radius:999px;padding:3px 12px;font-size:15px;font-weight:900;margin-botto
 #wise-app .scene .out .more{margin-top:10px;font-size:19px;font-weight:700;color:var(--muted)}
 @keyframes wrise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 #wise-app .scene .go{margin-top:14px;animation:wsoft .5s ease-out}
+/* 화면을 옮길 때 뜸. 누르면 바로 넘어간다. */
+#wise-app .hold{position:fixed;inset:0;z-index:70;display:flex;align-items:center;
+justify-content:center;background:rgba(244,238,224,.86);cursor:pointer}
+#wise-app .hold .box{background:#fff;border:3px solid var(--line);border-radius:18px;
+padding:22px 26px;box-shadow:6px 6px 0 var(--line);text-align:center;max-width:min(420px,86vw)}
+#wise-app .hold p{margin:10px 0 0;font-size:20px;font-weight:800;color:var(--ink)}
+#wise-app .hold small{display:block;margin-top:8px;font-size:15px;font-weight:700;color:var(--muted)}
 @keyframes wsoft{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){
 #wise-app .scene .out,#wise-app .scene .go,#wise-app .quest.on{animation:none}
@@ -304,6 +311,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
 
 <div id="w-cele" class="hide"></div>
 <div id="w-busy" class="hide"></div>
+<div id="w-hold" class="hide"></div>
 <div id="w-toast" class="hide"></div>
 
 <p class="foot">2026년 G-DEAL A.N.D · CC BY-NC-SA</p>
@@ -546,6 +554,49 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       }
     }
     return { paint: paint, choose: choose };
+  }
+
+  /* 화면을 옮기기 전에 잠깐 뜸을 들인다.
+
+     읽을 틈을 주려는 것이지 기다리게 하려는 것이 아니다.
+     그래서 뜸 화면을 한 번 더 누르면 곧바로 넘어간다.
+     움직임을 줄이도록 설정한 기기에서는 뜸 없이 바로 옮긴다.
+
+       wiseHold("hub", "교무실 문을 여는 중이에요", 700) */
+  function wiseHold(id, text, ms) {
+    var wait = ms || 700;
+    var reduce = false;
+    try {
+      reduce = window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) { reduce = false; }
+    if (reduce || wait <= 0) { wiseGo(id); return; }
+
+    var box = $("w-hold");
+    var timer = null;
+    var done = false;
+
+    function finish() {
+      if (done) { return; }
+      done = true;
+      if (timer) { clearTimeout(timer); }
+      box.className = "hide";
+      box.innerHTML = "";
+      box.onclick = null;
+      wiseGo(id);
+    }
+
+    box.innerHTML = '<div class="box"><span class="spin big"></span>' +
+      '<p>' + esc(text || "잠깐만요") + '</p>' +
+      '<small>누르면 바로 넘어가요</small></div>';
+    box.className = "hold";
+    box.onclick = finish;
+    /* 미리보기 통로. 주소에 hold=1 을 붙이면 뜸 화면을 띄운 채로 둔다.
+       교사 안내 자료에 이 화면을 실을 때 쓴다. 수업에서는 쓰이지 않는다. */
+    var hq = "";
+    try { hq = window.location && window.location.search ? window.location.search : ""; } catch (e) { hq = ""; }
+    if (hq.indexOf("hold=1") >= 0) { return; }
+    timer = setTimeout(finish, wait);
   }
 
   function wiseStep(i, n) {
@@ -990,7 +1041,7 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
         if (st.tr >= TRAIN.length) { award("훈련 수료"); }
       };
     }
-    if ($("train-go")) { $("train-go").onclick = function () { wiseGo("verify"); }; }
+    if ($("train-go")) { $("train-go").onclick = function () { wiseHold("verify", "검증실 문을 여는 중이에요", 700); }; }
   }
 
   /* ---------- 검증실 ---------- */
@@ -1349,11 +1400,11 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       ],
       after: function () { wiseGo("hub"); }
     });
-    $("t-train").onclick = function () { wiseGo("train"); };
-    $("t-verify").onclick = function () { wiseGo("verify"); };
-    $("t-hunt").onclick = function () { wiseGo("hunt"); };
-    $("t-class").onclick = function () { wiseGo("class"); };
-    $("t-card").onclick = function () { wiseGo("card"); };
+    $("t-train").onclick = function () { wiseHold("train", "훈련장을 여는 중이에요", 700); };
+    $("t-verify").onclick = function () { wiseHold("verify", "검증실 문을 여는 중이에요", 700); };
+    $("t-hunt").onclick = function () { wiseHold("hunt", "사냥 채비를 하는 중이에요", 700); };
+    $("t-class").onclick = function () { wiseHold("class", "우리 반 결과를 모으는 중이에요", 700); };
+    $("t-card").onclick = function () { wiseHold("card", "카드를 만드는 중이에요", 700); };
     $("v-prev").onclick = function () { if (st.i > 0) { st.i -= 1; bindVerify(); } };
     $("v-next").onclick = function () { if (st.i < ITEMS.length - 1) { st.i += 1; bindVerify(); } };
     $("h-prev").onclick = function () { if (st.huntI > 0) { st.huntI -= 1; bindHunt(); } };
@@ -1895,7 +1946,12 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
       try { activityAutofill(); } catch (e) {}
     }
     if (val && val !== "stage") {
-      try { wiseGo(val); } catch (e) {}
+      /* hold=1 이면 뜸 화면이 뜬 채로 멈춘다. 안내 자료에 그 화면을 실을 때 쓴다. */
+      if (q.indexOf("hold=1") >= 0) {
+        try { wiseHold(val, "화면을 여는 중이에요", 700); } catch (e) {}
+      } else {
+        try { wiseGo(val); } catch (e) {}
+      }
     }
   }
 
