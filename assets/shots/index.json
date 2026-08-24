@@ -31,6 +31,16 @@
   {
    "name": "우리 반",
    "file": "L10_7_class.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L10_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L10_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L01": [
@@ -65,6 +75,16 @@
   {
    "name": "역할 나누기",
    "file": "L01_7_role.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L01_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L01_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L02": [
@@ -99,6 +119,16 @@
   {
    "name": "검증관 카드",
    "file": "L02_7_card.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L02_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L02_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L03": [
@@ -133,6 +163,16 @@
   {
    "name": "마음 살피기",
    "file": "L03_7_who.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L03_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L03_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L04": [
@@ -167,6 +207,16 @@
   {
    "name": "우리 반과 견주기",
    "file": "L04_7_class.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L04_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L04_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L05": [
@@ -201,6 +251,16 @@
   {
    "name": "정비 수칙",
    "file": "L05_7_rule.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L05_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L05_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L06": [
@@ -235,6 +295,16 @@
   {
    "name": "판정단 카드",
    "file": "L06_7_card.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L06_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L06_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L07": [
@@ -269,6 +339,16 @@
   {
    "name": "묶기와 확정",
    "file": "L07_7_board.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L07_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L07_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L08": [
@@ -303,6 +383,16 @@
   {
    "name": "게시판",
    "file": "L08_7_board.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L08_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L08_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L09": [
@@ -337,6 +427,16 @@
   {
    "name": "3단계 다시 쓰기",
    "file": "L09_7_rewrite.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L09_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L09_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L11": [
@@ -371,6 +471,16 @@
   {
    "name": "설계실",
    "file": "L11_7_plan.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L11_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L11_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "L12": [
@@ -405,6 +515,16 @@
   {
    "name": "돌아보기",
    "file": "L12_7_back2.png"
+  },
+  {
+   "name": "이야기 장면",
+   "file": "L12_s1_장면.png",
+   "scene": "before"
+  },
+  {
+   "name": "고른 뒤",
+   "file": "L12_s2_고른뒤.png",
+   "scene": "after"
   }
  ],
  "common": [
