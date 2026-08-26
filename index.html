@@ -555,19 +555,19 @@ color:#6F6A61;cursor:pointer;text-decoration:underline}
 </script>
 
 <!-- 사전·사후 설문 안내 팝업 -->
-<div id="survey-pop" role="dialog" aria-modal="true" aria-label="사전·사후 설문 조사 안내" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(17,17,17,.55);align-items:center;justify-content:center;padding:16px">
-  <div style="background:#fff;border:3px solid #111;border-radius:18px;max-width:460px;width:100%;padding:22px 20px;box-shadow:7px 7px 0 rgba(17,17,17,.28)">
+<div id="survey-pop" role="dialog" aria-modal="true" aria-label="사전·사후 설문 조사 안내" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(17,17,17,.55);align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="box-sizing:border-box;background:#fff;border:3px solid #111;border-radius:18px;width:min(480px,94vw);max-height:92vh;overflow:auto;padding:22px 20px;box-shadow:7px 7px 0 rgba(17,17,17,.28)">
     <p style="font-weight:900;font-size:21px;margin:0 0 8px">📋 사전 · 사후 설문 조사</p>
-    <p style="margin:0 0 12px;line-height:1.55">수업을 시작하기 전(<strong>사전</strong>)과 12차시를 마친 뒤(<strong>사후</strong>)에 같은 설문에 한 번씩 참여합니다.<br>설문에서 <strong>우리 선생님 번호</strong>를 골라야 해요. 아래에서 먼저 확인하세요.</p>
-    <table style="width:100%;border-collapse:collapse;margin:0 0 14px;font-size:15px">
-      <tr><td colspan="2" style="border:2px solid #111;background:#111;color:#fff;font-weight:900;padding:7px 10px;text-align:center">우리 연구회 : G-DEAL A.N.D (코드 F)</td></tr>
-      <tr><td style="border:2px solid #111;padding:7px 10px;font-weight:700">이ㅇ희 선생님 반</td><td style="border:2px solid #111;padding:7px 10px;text-align:center;font-weight:900;font-size:18px;background:#fff3bf">17-1</td></tr>
-      <tr><td style="border:2px solid #111;padding:7px 10px;font-weight:700">최ㅇ은 선생님 반</td><td style="border:2px solid #111;padding:7px 10px;text-align:center;font-weight:900;font-size:18px;background:#d3f9d8">17-2</td></tr>
-      <tr><td style="border:2px solid #111;padding:7px 10px;font-weight:700">윤ㅇ류 선생님 반</td><td style="border:2px solid #111;padding:7px 10px;text-align:center;font-weight:900;font-size:18px;background:#d0ebff">17-3</td></tr>
-      <tr><td style="border:2px solid #111;padding:7px 10px;font-weight:700">손ㅇ림 선생님 반</td><td style="border:2px solid #111;padding:7px 10px;text-align:center;font-weight:900;font-size:18px;background:#ffd8e8">17-4</td></tr>
+    <p style="margin:0 0 12px;line-height:1.55;word-break:keep-all">수업을 시작하기 전(<strong>사전</strong>)과 12차시를 마친 뒤(<strong>사후</strong>)에 같은 설문에 한 번씩 참여합니다.<br>설문에서 <strong>우리 선생님 번호</strong>를 골라야 해요. 아래에서 먼저 확인하세요.</p>
+    <table style="box-sizing:border-box;width:100%;max-width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;margin:0 0 14px;font-size:15px">
+      <tr><td colspan="2" style="border:2px solid #111;background:#111;color:#fff;font-weight:900;padding:7px 8px;text-align:center;word-break:keep-all">우리 연구회 : G-DEAL A.N.D (코드 F)</td></tr>
+      <tr><td style="width:64%;border:2px solid #111;padding:7px 10px;font-weight:700;word-break:keep-all">이ㅇ희 선생님 반</td><td style="width:36%;border:2px solid #111;padding:7px 6px;text-align:center;font-weight:900;font-size:18px;background:#fff3bf">17-1</td></tr>
+      <tr><td style="border:2px solid #111;padding:7px 10px;font-weight:700;word-break:keep-all">최ㅇ은 선생님 반</td><td style="border:2px solid #111;padding:7px 6px;text-align:center;font-weight:900;font-size:18px;background:#d3f9d8">17-2</td></tr>
+      <tr><td style="border:2px solid #111;padding:7px 10px;font-weight:700;word-break:keep-all">윤ㅇ류 선생님 반</td><td style="border:2px solid #111;padding:7px 6px;text-align:center;font-weight:900;font-size:18px;background:#d0ebff">17-3</td></tr>
+      <tr><td style="border:2px solid #111;padding:7px 10px;font-weight:700;word-break:keep-all">손ㅇ림 선생님 반</td><td style="border:2px solid #111;padding:7px 6px;text-align:center;font-weight:900;font-size:18px;background:#ffd8e8">17-4</td></tr>
     </table>
-    <a href="https://form.naver.com/response/G3KF7CPwY9I" target="_blank" rel="noopener" style="display:block;text-align:center;border:3px solid #111;border-radius:12px;background:#7ad07a;color:#111;font-weight:900;font-size:17px;padding:12px 10px;text-decoration:none;box-shadow:4px 4px 0 rgba(17,17,17,.25)">설문 참여하기 →</a>
-    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+    <a href="https://form.naver.com/response/G3KF7CPwY9I" target="_blank" rel="noopener" style="box-sizing:border-box;display:block;text-align:center;border:3px solid #111;border-radius:12px;background:#7ad07a;color:#111;font-weight:900;font-size:17px;padding:12px 10px;text-decoration:none;box-shadow:4px 4px 0 rgba(17,17,17,.25)">설문 참여하기 →</a>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap">
       <button id="survey-pop-close" type="button" style="border:2px solid #111;border-radius:10px;background:#fff;font-weight:700;padding:7px 14px;cursor:pointer">닫기</button>
       <button id="survey-pop-today" type="button" style="border:2px solid #999;border-radius:10px;background:#f1f3f5;color:#555;font-weight:700;padding:7px 14px;cursor:pointer">오늘 하루 열지 않기</button>
     </div>
