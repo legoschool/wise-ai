@@ -1,0 +1,36 @@
+{
+  "wise": {
+    "$app": {
+      "$room": {
+        "meta": {
+          ".read": false,
+          ".write": "!data.exists()",
+          ".validate": "newData.hasChildren(['app', 'at'])",
+          "locked": {
+            ".write": "newData.val() === true"
+          }
+        },
+        "entries": {
+          ".read": true,
+          "$id": {
+            ".write": "!data.exists()",
+            ".validate": "newData.hasChildren(['nick', 'at'])"
+          }
+        },
+        "votes": {
+          ".read": true,
+          "$id": {
+            ".write": "!data.exists()",
+            ".validate": "newData.hasChildren(['nick', 'at'])"
+          }
+        },
+        "approve": {
+          ".read": true,
+          "$nick": {
+            ".write": "newData.isBoolean()"
+          }
+        }
+      }
+    }
+  }
+}

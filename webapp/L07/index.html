@@ -346,13 +346,18 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
     return fetch(dbUrl(path), {
       method: "PUT", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
-    }).then(function (r) { return r.json(); });
+    }).then(dbOk);
   }
   function dbPush(path, data) {
     return fetch(dbUrl(path), {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
-    }).then(function (r) { return r.json(); });
+    }).then(dbOk);
+  }
+  /* 보안 규칙에 막힌 쓰기도 응답은 온다. 상태 코드를 보고 실패로 돌려야 화면이 저장됐다고 속지 않는다. */
+  function dbOk(r) {
+    if (!r.ok) { throw new Error("db " + r.status); }
+    return r.json();
   }
 
   /* 시트 백업 대기열.
@@ -1914,11 +1919,30 @@ white-space:nowrap;text-decoration:none;cursor:pointer;box-shadow:none}
 
   /* ---------- 교사 흐름 ---------- */
 
+  /* 교사 비밀번호는 원문으로 저장하지 않는다. 방 코드와 함께 SHA-256 으로 바꾼 값만 남긴다. */
+  function pwHash(code, pw) {
+    try {
+      var bytes = new TextEncoder().encode("wise-ai|" + APP + "|" + code + "|" + pw);
+      return crypto.subtle.digest("SHA-256", bytes).then(function (buf) {
+        var a = new Uint8Array(buf), s = "";
+        for (var i = 0; i < a.length; i++) { s += ("0" + a[i].toString(16)).slice(-2); }
+        return s;
+      })["catch"](function () { return ""; });
+    } catch (e) {
+      return Promise.resolve("");
+    }
+  }
+
   function teacherMake() {
     var code = makeCode();
     var pw = onlyDigits($("w-pw").value, 4) || "0000";
     wiseBusy(true, "방을 만드는 중");
-    dbPut(code + "/meta", { app: APP, pw: pw, at: Date.now(), locked: false })
+    pwHash(code, pw)
+      .then(function (h) {
+        var meta = { app: APP, at: Date.now(), locked: false };
+        if (h) { meta.pwh = h; }
+        return dbPut(code + "/meta", meta);
+      })
       .then(function () {
         wiseBusy(false);
         sheetRoom(code, $("w-tag") ? $("w-tag").value.trim() : "");

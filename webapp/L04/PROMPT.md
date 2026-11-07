@@ -47,6 +47,7 @@ Firebase 실시간 DB 를 REST 로 직접 호출한다. SDK 를 붙이지 마라
 주소 : https://remind-c2610-default-rtdb.firebaseio.com
 경로 : /wise/info-sorter/<방코드>/entries
 실시간 갱신은 3초 폴링으로 한다. SSE 스트리밍은 학교망에서 끊긴다.
+교사 비밀번호는 원문으로 저장하지 마라. 방 코드와 함께 SHA-256 으로 바꾼 값만 meta 에 남긴다.
 
 같은 기록을 Google Sheets 에도 백업한다.
 시트 : 선생님이 만든 백업 시트의 ID 를 여기에 넣는다.
